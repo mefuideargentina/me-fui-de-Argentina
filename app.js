@@ -55,7 +55,7 @@ async function loadApprovedListings(){
 }
 
 function getAll(){
-    return [...supabaseListings, ...listings];
+return supabaseListings;
 }
 
 function render(){
