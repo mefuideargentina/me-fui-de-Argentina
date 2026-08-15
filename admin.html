@@ -76,7 +76,11 @@
       Iniciar sesión
     </button>
 
-    <div id="mensaje"></div>
+    <div id="mensaje"></div><div id="panel" style="display:none; margin-top:30px;">
+  <h2>Anuncios pendientes</h2>
+  <div id="pendientes"></div>
+</div>
+    
   </div>
 
   <script>
@@ -105,8 +109,72 @@
       }
 
       mensaje.textContent = "✅ Sesión iniciada correctamente.";
-      console.log("Usuario:", data.user);
+document.getElementById("panel").style.display = "block";
+cargarPendientes();
     }
+    async function cargarPendientes() {
+  const contenedor = document.getElementById("pendientes");
+  contenedor.innerHTML = "Cargando...";
+
+  const { data, error } = await supabaseClient
+    .from("anuncios")
+    .select("*")
+    .eq("estado", "pendiente")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    contenedor.innerHTML = "❌ No se pudieron cargar los anuncios.";
+    console.error(error);
+    return;
+  }
+
+  if (!data.length) {
+    contenedor.innerHTML = "<p>No hay anuncios pendientes 🎉</p>";
+    return;
+  }
+
+  contenedor.innerHTML = data.map(a => `
+    <div style="
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:16px;
+      margin-bottom:14px;
+      background:#fff;
+    ">
+      <strong>${a.titulo}</strong>
+      <p>${a.descripcion || ""}</p>
+      <p><b>Ciudad:</b> ${a.ciudad || ""}</p>
+      <p><b>Precio:</b> ${a.precio || "Consultar"}</p>
+      <p><b>Contacto:</b> ${a.contacto || ""}</p>
+
+      <button onclick="cambiarEstado('${a.id}','aprobado')">
+        ✅ Aprobar
+      </button>
+
+      <button
+        onclick="cambiarEstado('${a.id}','rechazado')"
+        style="background:#dc2626;"
+      >
+        ❌ Rechazar
+      </button>
+    </div>
+  `).join("");
+}
+
+async function cambiarEstado(id, estado) {
+  const { error } = await supabaseClient
+    .from("anuncios")
+    .update({ estado })
+    .eq("id", id);
+
+  if (error) {
+    alert("❌ No se pudo actualizar el anuncio.");
+    console.error(error);
+    return;
+  }
+
+  cargarPendientes();
+}
   </script>
 
 </body>
