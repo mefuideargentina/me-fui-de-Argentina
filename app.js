@@ -26,9 +26,36 @@ function safe(s=""){
   return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
 
+let supabaseListings = [];
+
+async function loadApprovedListings(){
+    const { data, error } = await supabaseClient
+        .from("anuncios")
+        .select("*")
+        .eq("estado", "aprobado")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando anuncios:", error);
+        return;
+    }
+
+    supabaseListings = data.map(x => ({
+        category: x.categoria,
+        title: x.titulo,
+        city: x.ciudad,
+        location: x.ciudad,
+        price: x.precio,
+        description: x.descripcion,
+        contact: x.contacto,
+        age: "Publicado recientemente"
+    }));
+
+    render();
+}
+
 function getAll(){
-  const saved = JSON.parse(localStorage.getItem("mfa_v2_posts") || "[]");
-  return [...saved, ...listings];
+    return [...supabaseListings, ...listings];
 }
 
 function render(){
@@ -171,3 +198,4 @@ document.querySelectorAll(".group-filter").forEach(btn=>{
 
 document.getElementById("groupCity").addEventListener("change",renderGroups);
 renderGroups();
+loadApprovedListings();
