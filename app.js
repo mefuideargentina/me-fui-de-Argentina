@@ -141,18 +141,45 @@ document.getElementById("publishForm").addEventListener("submit", async e => {
 render();
 
 
-const communityGroups = [
-  {name:"Avisos de trabajo", category:"trabajo", icon:"💼", description:"Ofertas y avisos laborales de la comunidad.", url:"https://chat.whatsapp.com/It0t7nSSTTlCnKe2Paz62S?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Alquileres", category:"vivienda", icon:"🏠", description:"Habitaciones, pisos, alquileres y búsquedas.", url:"https://chat.whatsapp.com/BHNmPRwp8ZV1yKyiJFUtwJ?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Argentinos en Valencia", category:"general", icon:"🇦🇷", description:"Grupo general de la comunidad en Valencia.", url:"https://chat.whatsapp.com/CVkPDgrrWp140wUBtkrPLw?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Servicios / publicidad", category:"servicios", icon:"📢", description:"Servicios, emprendimientos y publicidad útil.", url:"https://chat.whatsapp.com/CgK5dnG4Nip1ljYgAGLBDz?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Compra / Venta (productos)", category:"compraventa", icon:"🛒", description:"Compra y venta de productos entre miembros.", url:"https://chat.whatsapp.com/CyrfZgMsfzNIGnQWovsEEH?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Argentinos en Valencia 2", category:"general", icon:"🇦🇷", description:"Segundo grupo general de la comunidad.", url:"https://chat.whatsapp.com/JYmRpGAJUL418XmwGg6rag?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Charlas informales / Juntadas", category:"social", icon:"🧉", description:"Conocer gente, organizar salidas y juntadas.", url:"https://chat.whatsapp.com/I8DQ0Wfwd5pGz4wpQziBZM?s=cl&p=i&ilr=0&amv=0"},
-  {name:"Fulbito", category:"deportes", icon:"⚽", description:"Partidos y gente para jugar al fútbol.", url:"https://chat.whatsapp.com/GnqQLGuhjQdCInh7MPfdwT"},
-  {name:"BeachVolley", category:"deportes", icon:"🏐", description:"Grupo para organizar partidos de vóley playa.", url:"https://chat.whatsapp.com/LlA8Bxr8zxFCB8xhppWMU5?s=cl&p=a&ilr=4"}
-];
+let communityGroups = [];
 
+async function loadCommunityGroups() {
+  const { data, error } = await supabaseClient
+    .from("grupos")
+    .select("*")
+    .eq("estado", "aprobado")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Error cargando grupos:", error);
+    return;
+  }
+
+  communityGroups = data.map(g => ({
+    name: g.nombre,
+    category: g.categoria,
+    icon: getGroupIcon(g.categoria),
+    description: g.descripcion,
+    url: g.enlace,
+    city: g.ciudad
+  }));
+
+  renderGroups();
+}
+
+function getGroupIcon(category) {
+  const icons = {
+    trabajo: "💼",
+    vivienda: "🏠",
+    general: "🇦🇷",
+    servicios: "📢",
+    compraventa: "🛒",
+    social: "🧉",
+    deportes: "⚽"
+  };
+
+  return icons[category] || "💬";
+}
 let groupFilter = "todos";
 
 function renderGroups(){
@@ -165,7 +192,10 @@ function renderGroups(){
     return;
   }
 
-  const groups = communityGroups.filter(g => groupFilter === "todos" || g.category === groupFilter);
+  const groups = communityGroups.filter(g =>
+  g.city === city &&
+  (groupFilter === "todos" || g.category === groupFilter)
+);
   directory.innerHTML = groups.map(g => `
     <a href="#" class="group-card" onclick="return openCommunityGroup(event,'${g.url}')">
       <span>${g.icon}</span>
@@ -180,10 +210,6 @@ function renderGroups(){
 
 function openCommunityGroup(e,url){
   e.preventDefault();
-  if(url.startsWith("ENLACE_")){
-    alert("Este grupo todavía necesita su enlace de invitación de WhatsApp. Lo vas a pegar en app.js.");
-    return false;
-  }
   window.open(url,"_blank","noopener");
   return false;
 }
@@ -199,3 +225,4 @@ document.querySelectorAll(".group-filter").forEach(btn=>{
 document.getElementById("groupCity").addEventListener("change",renderGroups);
 renderGroups();
 loadApprovedListings();
+loadCommunityGroups();
