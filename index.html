@@ -121,30 +121,31 @@
     <div class="section-title">
       <span>💬 COMUNIDAD</span>
       <h2>Encontrá tu grupo</h2>
-      <p>Elegí la ciudad o temática que necesitás y entrá directamente al grupo.</p>
+      <p>Elegí ciudad y temática. Valencia ya está activa; vamos sumando nuevas ciudades a medida que crece la comunidad.</p>
     </div>
 
-    <div class="groups-grid">
-      <a href="#" onclick="return demoGroup(event)" class="group-card">
-        <span>🏠</span>
-        <div><strong>Vivienda España</strong><small>Habitaciones, pisos y alquileres</small></div>
-        <b>→</b>
-      </a>
-      <a href="#" onclick="return demoGroup(event)" class="group-card">
-        <span>💼</span>
-        <div><strong>Trabajo España</strong><small>Ofertas y oportunidades laborales</small></div>
-        <b>→</b>
-      </a>
-      <a href="#" onclick="return demoGroup(event)" class="group-card">
-        <span>🎉</span>
-        <div><strong>Eventos y planes</strong><small>Juntadas, salidas y actividades</small></div>
-        <b>→</b>
-      </a>
-      <a href="#" onclick="return demoGroup(event)" class="group-card">
-        <span>🛒</span>
-        <div><strong>Compra y venta</strong><small>Publicaciones entre argentinos</small></div>
-        <b>→</b>
-      </a>
+    <div class="group-toolbar">
+      <select id="groupCity">
+        <option value="Valencia">📍 Valencia</option>
+        <option value="proximamente">🇪🇸 Otras ciudades — próximamente</option>
+      </select>
+      <div class="group-filters">
+        <button class="group-filter active" data-group-filter="todos">Todos</button>
+        <button class="group-filter" data-group-filter="trabajo">💼 Trabajo</button>
+        <button class="group-filter" data-group-filter="vivienda">🏠 Vivienda</button>
+        <button class="group-filter" data-group-filter="general">🇦🇷 General</button>
+        <button class="group-filter" data-group-filter="servicios">📢 Servicios</button>
+        <button class="group-filter" data-group-filter="compraventa">🛒 Compra/venta</button>
+        <button class="group-filter" data-group-filter="social">🧉 Juntadas</button>
+        <button class="group-filter" data-group-filter="deportes">⚽ Deportes</button>
+      </div>
+    </div>
+
+    <div id="groupDirectory" class="groups-grid directory"></div>
+
+    <div class="group-note">
+      <strong>¿Administrás una comunidad argentina en otra ciudad?</strong>
+      <span>Más adelante vas a poder solicitar que tu grupo aparezca en este directorio.</span>
     </div>
   </div>
 </section>
