@@ -1,3 +1,8 @@
+const SUPABASE_URL = "NEXT_PUBLIC_SUPABASE_URL=https://xagsdvhibdgfmotiomoq.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
+const SUPABASE_KEY = "sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const listings = [
   {category:"vivienda",title:"Habitación en Malasaña",city:"Madrid",location:"Madrid · Centro",price:"450 €/mes",description:"Habitación luminosa en piso compartido. Gastos incluidos.",age:"Hace 1 h"},
@@ -72,35 +77,39 @@ document.getElementById("citySelect").addEventListener("change",e=>{
   render();
 });
 
-document.getElementById("publishForm").addEventListener("submit",e=>{
+document.getElementById("publishForm").addEventListener("submit", async e => {
   e.preventDefault();
 
-  const city = document.getElementById("location").value.trim();
+  const ciudad = document.getElementById("location").value.trim();
 
-  const post = {
-    category:document.getElementById("category").value,
-    title:document.getElementById("title").value.trim(),
-    city:city,
-    location:city,
-    price:document.getElementById("price").value.trim(),
-    description:document.getElementById("description").value.trim(),
-    contact:document.getElementById("contact").value.trim(),
-    age:"Recién publicado"
+  const anuncio = {
+    categoria: document.getElementById("category").value,
+    titulo: document.getElementById("title").value.trim(),
+    descripcion: document.getElementById("description").value.trim(),
+    ciudad: ciudad,
+    precio: document.getElementById("price").value.trim(),
+    contacto: document.getElementById("contact").value.trim(),
+    estado: "pendiente"
   };
 
-  const saved=JSON.parse(localStorage.getItem("mfa_v2_posts")||"[]");
-  saved.unshift(post);
-  localStorage.setItem("mfa_v2_posts",JSON.stringify(saved));
+  document.getElementById("formStatus").textContent = "Publicando...";
+
+  const { error } = await supabaseClient
+    .from("anuncios")
+    .insert([anuncio]);
+
+  if (error) {
+    console.error(error);
+    document.getElementById("formStatus").textContent =
+      "❌ No se pudo publicar. Probá de nuevo.";
+    return;
+  }
 
   e.target.reset();
-  document.getElementById("formStatus").textContent="✓ Publicado en esta demo.";
-  currentCity="todas";
-  document.getElementById("citySelect").value="todas";
-  currentFilter="todos";
-  render();
-  setTimeout(()=>document.querySelector(".recent").scrollIntoView({behavior:"smooth"}),250);
-});
 
+  document.getElementById("formStatus").textContent =
+    "✅ Anuncio enviado. Quedó pendiente de aprobación.";
+});
 
 
 render();
