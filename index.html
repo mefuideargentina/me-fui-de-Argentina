@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Me Fui de Argentina — Comunidad de argentinos en España</title>
+  <meta name="description" content="Vivienda, trabajo, eventos, grupos de WhatsApp y compra/venta para argentinos en España.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="#inicio">
+      <span class="brand-flag">🇦🇷</span>
+      <span>
+        <strong>Me Fui <em>de Argentina</em></strong>
+        <small>Comunidad de argentinos en España</small>
+      </span>
+    </a>
+
+    <nav>
+      <a href="#inicio" class="active">⌂ Inicio</a>
+      <a href="#grupos">👥 Grupos</a>
+      <a href="#explorar">◉ Explorar</a>
+      <a href="#publicar">⊕ Publicar</a>
+    </nav>
+
+    <button class="btn btn-blue" onclick="document.querySelector('#publicar').scrollIntoView({behavior:'smooth'})">
+      + Publicar anuncio
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section id="inicio" class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="welcome">👋 BIENVENIDOS</span>
+      <h1>La comunidad de<br>argentinos en <span>España</span> 🇪🇸</h1>
+      <p>Conectá con argentinos en todo el país. Encontrá vivienda, trabajo, eventos, grupos de WhatsApp y mucho más.</p>
+
+      <div class="hero-actions">
+        <button class="btn btn-blue" onclick="document.querySelector('#explorar').scrollIntoView({behavior:'smooth'})">⌕ Explorar anuncios</button>
+        <button class="btn btn-white" onclick="document.querySelector('#grupos').scrollIntoView({behavior:'smooth'})">🟢 Ver grupos de WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="plane">✈️</div>
+      <div class="spain-card">
+        <div class="spain-shape">🇪🇸</div>
+        <strong>De Argentina a España</strong>
+        <small>Una comunidad para sentirte más cerca.</small>
+      </div>
+      <div class="arg-bubble">🇦🇷</div>
+    </div>
+  </div>
+</section>
+
+<section class="categories" id="explorar">
+  <div class="container">
+    <div class="category-grid">
+      <button class="category blue" data-filter="vivienda">
+        <span class="icon">🏠</span>
+        <div><strong>Vivienda</strong><small>Habitaciones, pisos y alquileres</small></div>
+      </button>
+      <button class="category green" data-filter="trabajo">
+        <span class="icon">💼</span>
+        <div><strong>Trabajo</strong><small>Ofertas y personas buscando trabajo</small></div>
+      </button>
+      <button class="category purple" data-filter="eventos">
+        <span class="icon">📅</span>
+        <div><strong>Eventos y planes</strong><small>Fiestas, juntadas, deportes y más</small></div>
+      </button>
+      <button class="category orange" onclick="document.querySelector('#grupos').scrollIntoView({behavior:'smooth'})">
+        <span class="icon">👥</span>
+        <div><strong>Grupos WhatsApp</strong><small>Unite a grupos por temática</small></div>
+      </button>
+      <button class="category pink" data-filter="compraventa">
+        <span class="icon">🛒</span>
+        <div><strong>Compra y venta</strong><small>Muebles, tecnología, bicis y más</small></div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="recent">
+  <div class="container">
+    <div class="section-head">
+      <h2>🔥 Lo más reciente</h2>
+
+      <div class="controls">
+        <select id="citySelect">
+          <option value="todas">📍 Toda España</option>
+          <option value="Valencia">Valencia</option>
+          <option value="Madrid">Madrid</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Málaga">Málaga</option>
+          <option value="Alicante">Alicante</option>
+          <option value="Sevilla">Sevilla</option>
+        </select>
+
+        <div class="filters">
+          <button class="filter active" data-filter="todos">Todos</button>
+          <button class="filter" data-filter="vivienda">Vivienda</button>
+          <button class="filter" data-filter="trabajo">Trabajo</button>
+          <button class="filter" data-filter="eventos">Eventos</button>
+          <button class="filter" data-filter="compraventa">Compra y venta</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="listingGrid" class="listing-grid"></div>
+  </div>
+</section>
+
+<section id="grupos" class="groups-section">
+  <div class="container">
+    <div class="section-title">
+      <span>💬 COMUNIDAD</span>
+      <h2>Encontrá tu grupo</h2>
+      <p>Elegí la ciudad o temática que necesitás y entrá directamente al grupo.</p>
+    </div>
+
+    <div class="groups-grid">
+      <a href="#" onclick="return demoGroup(event)" class="group-card">
+        <span>🏠</span>
+        <div><strong>Vivienda España</strong><small>Habitaciones, pisos y alquileres</small></div>
+        <b>→</b>
+      </a>
+      <a href="#" onclick="return demoGroup(event)" class="group-card">
+        <span>💼</span>
+        <div><strong>Trabajo España</strong><small>Ofertas y oportunidades laborales</small></div>
+        <b>→</b>
+      </a>
+      <a href="#" onclick="return demoGroup(event)" class="group-card">
+        <span>🎉</span>
+        <div><strong>Eventos y planes</strong><small>Juntadas, salidas y actividades</small></div>
+        <b>→</b>
+      </a>
+      <a href="#" onclick="return demoGroup(event)" class="group-card">
+        <span>🛒</span>
+        <div><strong>Compra y venta</strong><small>Publicaciones entre argentinos</small></div>
+        <b>→</b>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="publicar" class="publish-section">
+  <div class="container publish-grid">
+    <div class="publish-info">
+      <span>📢 PUBLICAR</span>
+      <h2>Compartí algo con la comunidad</h2>
+      <p>Publicá una habitación, trabajo, evento o producto. En esta demo se guarda solo en tu navegador.</p>
+      <ul>
+        <li>✓ Publicación gratuita</li>
+        <li>✓ Fácil y rápida</li>
+        <li>✓ Preparada para moderación</li>
+      </ul>
+    </div>
+
+    <form id="publishForm" class="publish-card">
+      <label>Categoría
+        <select id="category">
+          <option value="vivienda">🏠 Vivienda</option>
+          <option value="trabajo">💼 Trabajo</option>
+          <option value="eventos">🎉 Eventos y planes</option>
+          <option value="compraventa">🛒 Compra y venta</option>
+        </select>
+      </label>
+
+      <label>Título
+        <input id="title" required placeholder="Ej. Habitación en Malasaña">
+      </label>
+
+      <div class="two">
+        <label>Ciudad
+          <input id="location" required placeholder="Madrid">
+        </label>
+        <label>Precio / dato
+          <input id="price" placeholder="450 €/mes">
+        </label>
+      </div>
+
+      <label>Descripción
+        <textarea id="description" required placeholder="Contá lo importante..."></textarea>
+      </label>
+
+      <label>Contacto
+        <input id="contact" required placeholder="@instagram, WhatsApp o email">
+      </label>
+
+      <button type="submit" class="btn btn-blue full">Publicar anuncio</button>
+      <div id="formStatus" class="status"></div>
+    </form>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="container benefit-grid">
+    <div>🛡️ <span><strong>Comunidad segura</strong><small>Cuidamos a nuestra comunidad.</small></span></div>
+    <div>✅ <span><strong>Publicaciones reales</strong><small>Anuncios activos y ordenados.</small></span></div>
+    <div>👥 <span><strong>Hecho por argentinos</strong><small>Entendemos lo que necesitás.</small></span></div>
+    <div>❤️ <span><strong>Conectá y compartí</strong><small>Hacemos comunidad.</small></span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container footer">
+    <div><strong>🇦🇷 Me Fui de Argentina</strong><small>Comunidad de argentinos en España</small></div>
+    <span>Versión MVP</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
