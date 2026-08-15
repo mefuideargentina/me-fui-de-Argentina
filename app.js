@@ -1,5 +1,4 @@
-const SUPABASE_URL = "NEXT_PUBLIC_SUPABASE_URL=https://xagsdvhibdgfmotiomoq.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
+const SUPABASE_URL = "https://xagsdvhibdgfmotiomoq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
