@@ -1084,3 +1084,18 @@ footer{border-top:1px solid #eee;padding:28px 0}
     margin-left: 0;
   }
 }
+.report-button {
+  margin-top: 12px;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: #b45309;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.report-button:hover {
+  text-decoration: underline;
+  color: #92400e;
+}
