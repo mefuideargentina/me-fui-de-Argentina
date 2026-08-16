@@ -151,3 +151,11 @@ footer{border-top:1px solid #eee;padding:28px 0}
   .group-filters{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:5px}
   .group-filter{white-space:nowrap}
 }
+.contacto{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid #eee;
+  font-size:13px;
+  color:#475467;
+  font-weight:600;
+}
