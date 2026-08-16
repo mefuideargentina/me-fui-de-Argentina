@@ -159,3 +159,12 @@ footer{border-top:1px solid #eee;padding:28px 0}
   color:#475467;
   font-weight:600;
 }
+.contacto a{
+  color:#1769ee;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.contacto a:hover{
+  text-decoration:underline;
+}
