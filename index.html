@@ -359,13 +359,29 @@
   </div>
 
  <div class="chatbot-options">
-  <button onclick="goToListings('vivienda')">🏠 Buscar vivienda</button>
-  <button onclick="goToListings('trabajo')">💼 Buscar trabajo</button>
-  <button onclick="goToGroups()">💬 Ver grupos de WhatsApp</button>
-  <button onclick="goToPublish()">📢 Publicar un anuncio</button>
-  <button onclick="contactCollaborations()">🤝 Contacto / colaboraciones</button>
-  <button onclick="goToBusiness()">🏪 Para negocios</button>
-  <button onclick="goToCityQuiz()">🗺️ ¿Qué ciudad es para mí?</button>
+
+  <div class="chatbot-group">
+    <span class="chatbot-group-title">BUSCO ALGO</span>
+
+    <button onclick="goToListings('vivienda')">🏠 Buscar vivienda</button>
+    <button onclick="goToListings('trabajo')">💼 Buscar trabajo</button>
+    <button onclick="goToGroups()">💬 Ver grupos de WhatsApp</button>
+  </div>
+
+  <div class="chatbot-group">
+    <span class="chatbot-group-title">QUIERO PARTICIPAR</span>
+
+    <button onclick="goToPublish()">📢 Publicar un anuncio</button>
+    <button onclick="goToCityQuiz()">🗺️ ¿Qué ciudad es para mí?</button>
+  </div>
+
+  <div class="chatbot-group">
+    <span class="chatbot-group-title">SOY NEGOCIO</span>
+
+    <button onclick="goToBusiness()">🏪 Para negocios</button>
+    <button onclick="contactCollaborations()">🤝 Contacto / colaboraciones</button>
+  </div>
+
 </div>
 </div>
 <button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente">
