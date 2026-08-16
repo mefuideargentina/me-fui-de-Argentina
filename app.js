@@ -306,7 +306,17 @@ function renderContact(contact){
   return `📩 Contacto: ${safe(c)}`;
 }
 
-openImage(...)
+function openImage(url){
+  const viewer = document.createElement("div");
+  viewer.className = "image-viewer";
+
+  viewer.innerHTML = `
+    <div class="image-viewer-bg" onclick="this.parentElement.remove()"></div>
+    <img src="${url}" alt="Imagen ampliada">
+  `;
+
+  document.body.appendChild(viewer);
+}
 renderGroups();
 loadApprovedListings();
 loadCommunityGroups();
