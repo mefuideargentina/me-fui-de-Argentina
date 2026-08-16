@@ -563,3 +563,7 @@ footer{border-top:1px solid #eee;padding:28px 0}
   letter-spacing: 0.04em;
   margin-right: 6px;
 }
+.featured-card {
+  border: 1px solid #e7c45a;
+  box-shadow: 0 8px 22px rgba(194, 154, 35, 0.16);
+}
