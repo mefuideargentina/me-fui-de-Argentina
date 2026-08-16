@@ -229,3 +229,18 @@ footer{border-top:1px solid #eee;padding:28px 0}
 .contacto a:hover{
   text-decoration:underline;
 }
+/* Igualar tarjetas de anuncios */
+.listing-card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  box-sizing:border-box;
+}
+
+.listing-card .bottom{
+  margin-top:auto;
+}
+
+.contacto{
+  min-height:20px;
+}
