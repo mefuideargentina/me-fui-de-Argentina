@@ -368,3 +368,14 @@ if (chatbotClose && chatbotPanel) {
     chatbotPanel.classList.remove("open");
   });
 }
+function goToGroups() {
+  const groupsSection = document.getElementById("grupos");
+
+  if (groupsSection) {
+    groupsSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  chatbotPanel.classList.remove("open");
+}
