@@ -244,3 +244,17 @@ footer{border-top:1px solid #eee;padding:28px 0}
 .contacto{
   min-height:20px;
 }
+.listing-card .bottom strong{
+  background:#eef6ff;
+  color:#1769ee;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.listing-card .bottom span{
+  color:#667085;
+  font-size:12px;
+  line-height:1.4;
+}
