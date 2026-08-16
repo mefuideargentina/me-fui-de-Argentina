@@ -150,7 +150,12 @@ cargarPendientes();
       <button onclick="cambiarEstado('${a.id}','aprobado')">
         ✅ Aprobar
       </button>
-
+<button
+  onclick="destacarAnuncio('${a.id}')"
+  style="background:#f59e0b;"
+>
+  ⭐ Destacar 7 días
+</button>
       <button
         onclick="cambiarEstado('${a.id}','rechazado')"
         style="background:#dc2626;"
@@ -175,6 +180,26 @@ async function cambiarEstado(id, estado) {
 
   cargarPendientes();
 }
+   async function destacarAnuncio(id) {
+  const hasta = new Date();
+  hasta.setDate(hasta.getDate() + 7);
+
+  const { error } = await supabaseClient
+    .from("anuncios")
+    .update({
+      destacado: true,
+      destacado_hasta: hasta.toISOString()
+    })
+    .eq("id", id);
+
+  if (error) {
+    alert("❌ No se pudo destacar el anuncio.");
+    console.error(error);
+    return;
+  }
+
+  alert("⭐ Anuncio destacado por 7 días.");
+} 
   </script>
 
 </body>
