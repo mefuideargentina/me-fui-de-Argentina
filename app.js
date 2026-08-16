@@ -112,6 +112,9 @@ function render(){
       <div class="contacto">
   ${renderContact(x.contact)}
 </div>
+<button class="report-button" onclick="reportListing('${safe(x.title)}')">
+  ⚠️ Reportar publicación
+</button>
     </article>
   `).join("");
 }
@@ -708,4 +711,13 @@ if (mobileMenuButton && mobileMenu) {
       mobileMenu.classList.remove("open");
     });
   });
+}
+function reportListing(title) {
+  const subject = encodeURIComponent(`Reporte de publicación: ${title}`);
+  const body = encodeURIComponent(
+    `Hola, quiero reportar esta publicación de Me Fui de Argentina:\n\n${title}\n\nMotivo: `
+  );
+
+  window.location.href =
+    `mailto:mefui.deargentina@gmail.com?subject=${subject}&body=${body}`;
 }
