@@ -1099,3 +1099,78 @@ footer{border-top:1px solid #eee;padding:28px 0}
   text-decoration: underline;
   color: #92400e;
 }
+.report-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.55);
+  z-index: 2000;
+}
+
+.report-modal.open {
+  display: flex;
+}
+
+.report-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  padding: 26px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+}
+
+.report-modal-card h3 {
+  margin: 0 0 8px;
+}
+
+.report-modal-card > p {
+  margin: 0 0 20px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.report-modal-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.report-modal-card select,
+.report-modal-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dbe1ea;
+  border-radius: 12px;
+  font: inherit;
+  background: #ffffff;
+}
+
+.report-modal-card textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.report-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  font-size: 1.7rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .report-modal-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+}
