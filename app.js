@@ -40,17 +40,25 @@ async function loadApprovedListings(){
         return;
     }
 
-    supabaseListings = data.map(x => ({
-        category: x.categoria,
-        title: x.titulo,
-        city: x.ciudad,
-        location: x.ciudad,
-        price: x.precio,
-        description: x.descripcion,
-        contact: x.contacto,
-        images: x.imagen_url ? JSON.parse(x.imagen_url) : [],
-        age: "Publicado recientemente"
-    }));
+   supabaseListings = data.map(x => ({
+    category: x.categoria,
+    title: x.titulo,
+    city: x.ciudad,
+    location: x.ciudad,
+    price: x.precio,
+    description: x.descripcion,
+    contact: x.contacto,
+    images: x.imagen_url ? JSON.parse(x.imagen_url) : [],
+    age: "Publicado recientemente",
+    featured: x.destacado === true && x.destacado_hasta && new Date(x.destacado_hasta) > new Date(),
+    featuredUntil: x.destacado_hasta
+}));
+
+supabaseListings.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return 0;
+});
 
     render();
 }
