@@ -258,3 +258,16 @@ footer{border-top:1px solid #eee;padding:28px 0}
   font-size:12px;
   line-height:1.4;
 }
+.listing-card .bottom strong{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#dbeafe;
+  color:#1769ee;
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+  min-width:72px;
+}
