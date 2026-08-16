@@ -712,12 +712,77 @@ if (mobileMenuButton && mobileMenu) {
     });
   });
 }
-function reportListing(title) {
-  const subject = encodeURIComponent(`Reporte de publicación: ${title}`);
-  const body = encodeURIComponent(
-    `Hola, quiero reportar esta publicación de Me Fui de Argentina:\n\n${title}\n\nMotivo: `
-  );
+let currentReportedListing = "";
 
-  window.location.href =
-    `mailto:mefui.deargentina@gmail.com?subject=${subject}&body=${body}`;
+function reportListing(title) {
+  currentReportedListing = title;
+
+  const modal = document.getElementById("reportModal");
+  const titleElement = document.getElementById("reportListingTitle");
+  const status = document.getElementById("reportStatus");
+  const comment = document.getElementById("reportComment");
+
+  if (titleElement) {
+    titleElement.textContent = title;
+  }
+
+  if (status) {
+    status.textContent = "";
+  }
+
+  if (comment) {
+    comment.value = "";
+  }
+
+  if (modal) {
+    modal.classList.add("open");
+  }
+}
+const reportModal = document.getElementById("reportModal");
+const reportModalClose = document.getElementById("reportModalClose");
+const sendReportButton = document.getElementById("sendReportButton");
+
+if (reportModalClose && reportModal) {
+  reportModalClose.addEventListener("click", () => {
+    reportModal.classList.remove("open");
+  });
+}
+
+if (reportModal) {
+  reportModal.addEventListener("click", (e) => {
+    if (e.target === reportModal) {
+      reportModal.classList.remove("open");
+    }
+  });
+}
+
+if (sendReportButton) {
+  sendReportButton.addEventListener("click", async () => {
+    const reason = document.getElementById("reportReason").value;
+    const comment = document.getElementById("reportComment").value.trim();
+    const status = document.getElementById("reportStatus");
+
+    status.textContent = "Enviando reporte...";
+
+    const { error } = await supabaseClient
+      .from("reportes")
+      .insert({
+        anuncio_titulo: currentReportedListing,
+        motivo: reason,
+        comentario: comment,
+        estado: "pendiente"
+      });
+
+    if (error) {
+      console.error("Error enviando reporte:", error);
+      status.textContent = "❌ No se pudo enviar el reporte.";
+      return;
+    }
+
+    status.textContent = "✅ Reporte enviado. Gracias por avisarnos.";
+
+    setTimeout(() => {
+      reportModal.classList.remove("open");
+    }, 1500);
+  });
 }
