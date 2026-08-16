@@ -637,3 +637,30 @@ function goToCityQuiz() {
 
   chatbotPanel.classList.remove("open");
 }
+function goToCityListings(city) {
+  const citySelect = document.getElementById("citySelect");
+  const listingsSection = document.getElementById("anuncios");
+
+  const cityNames = {
+    Madrid: "Madrid",
+    Barcelona: "Barcelona",
+    Valencia: "Valencia",
+    Malaga: "Málaga",
+    Alicante: "Alicante",
+    Sevilla: "Sevilla",
+    Bilbao: "Bilbao"
+  };
+
+  const cityName = cityNames[city];
+
+  if (citySelect && cityName) {
+    citySelect.value = cityName;
+    citySelect.dispatchEvent(new Event("change"));
+  }
+
+  if (listingsSection) {
+    listingsSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+}
