@@ -684,3 +684,14 @@ function goToCityListings(city) {
 function showCityComingSoon(cityName) {
   alert(`🚀 Estamos preparando la comunidad en ${cityName}. Muy pronto vas a poder ver anuncios, grupos y recomendaciones.`);
 }
+function goToBusiness() {
+  const businessSection = document.getElementById("negocios");
+
+  if (businessSection) {
+    businessSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  chatbotPanel.classList.remove("open");
+}
