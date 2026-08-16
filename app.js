@@ -83,6 +83,9 @@ function render(){
         <span>📍 ${safe(x.location)}</span>
         <strong>${safe(x.price || "Consultar")}</strong>
       </div>
+      <div class="contacto">
+  📩 Contacto: ${safe(x.contact || "No especificado")}
+</div>
     </article>
   `).join("");
 }
