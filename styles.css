@@ -551,3 +551,15 @@ footer{border-top:1px solid #eee;padding:28px 0}
     margin:0 auto;
   }
 }
+.featured-badge {
+  display: inline-block;
+  background: #fff3cd;
+  color: #8a5a00;
+  border: 1px solid #ffd966;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-right: 6px;
+}
