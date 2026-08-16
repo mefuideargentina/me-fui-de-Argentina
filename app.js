@@ -661,10 +661,19 @@ function goToCityListings(city) {
 
   const cityName = cityNames[city];
 
+  // Volver a mostrar todas las categorías
+  currentFilter = "todos";
+
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === "todos");
+  });
+
   if (citySelect && cityName) {
     citySelect.value = cityName;
-    citySelect.dispatchEvent(new Event("change"));
+    currentCity = cityName;
   }
+
+  render();
 
   if (listingsSection) {
     listingsSection.scrollIntoView({
