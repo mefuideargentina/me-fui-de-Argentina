@@ -379,3 +379,39 @@ function goToGroups() {
 
   chatbotPanel.classList.remove("open");
 }
+function goToPublish() {
+  const publishSection = document.getElementById("publicar");
+
+  if (publishSection) {
+    publishSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  chatbotPanel.classList.remove("open");
+}
+
+function goToListings(category) {
+  const listingsSection = document.getElementById("anuncios");
+
+  const filterButton = document.querySelector(
+    `.filter[data-filter="${category}"]`
+  );
+
+  if (filterButton) {
+    filterButton.click();
+  }
+
+  if (listingsSection) {
+    listingsSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  chatbotPanel.classList.remove("open");
+}
+
+function showCityQuizSoon() {
+  alert("🇪🇸 Muy pronto vas a poder descubrir qué ciudad de España encaja mejor con vos.");
+  chatbotPanel.classList.remove("open");
+}
