@@ -253,7 +253,7 @@ function getGroupIcon(category, name) {
     servicios: "📢",
     compraventa: "🛒",
     social: "🧉",
-    deportes: "🏃"
+    deportes: "⚽"
   };
 
   return icons[category] || "💬";
