@@ -257,13 +257,13 @@
     <button id="chatbotClose" class="chatbot-close">×</button>
   </div>
 
-  <div class="chatbot-options">
-    <button>🏠 Buscar vivienda</button>
-    <button>💼 Buscar trabajo</button>
-    <button onclick="goToGroups()">💬 Ver grupos de WhatsApp</button>
-    <button>📢 Publicar un anuncio</button>
-    <button>🇪🇸 ¿Qué ciudad es para mí?</button>
-  </div>
+ <div class="chatbot-options">
+  <button onclick="goToListings('vivienda')">🏠 Buscar vivienda</button>
+  <button onclick="goToListings('trabajo')">💼 Buscar trabajo</button>
+  <button onclick="goToGroups()">💬 Ver grupos de WhatsApp</button>
+  <button onclick="goToPublish()">📢 Publicar un anuncio</button>
+  <button onclick="showCityQuizSoon()">🇪🇸 ¿Qué ciudad es para mí?</button>
+</div>
 </div>
 <button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente">
   💬
