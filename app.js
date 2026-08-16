@@ -415,3 +415,12 @@ function showCityQuizSoon() {
   alert("🇪🇸 Muy pronto vas a poder descubrir qué ciudad de España encaja mejor con vos.");
   chatbotPanel.classList.remove("open");
 }
+function contactCollaborations() {
+  window.open(
+    "https://www.instagram.com/mefuideargentina",
+    "_blank",
+    "noopener"
+  );
+
+  chatbotPanel.classList.remove("open");
+}
