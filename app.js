@@ -111,15 +111,56 @@ document.getElementById("publishForm").addEventListener("submit", async e => {
 
   const ciudad = document.getElementById("location").value.trim();
 
-  const anuncio = {
-    categoria: document.getElementById("category").value,
-    titulo: document.getElementById("title").value.trim(),
-    descripcion: document.getElementById("description").value.trim(),
-    ciudad: ciudad,
-    precio: document.getElementById("price").value.trim(),
-    contacto: document.getElementById("contact").value.trim(),
-    estado: "pendiente"
-  };
+  const files = Array.from(document.getElementById("images").files);
+
+if (files.length > 3) {
+  document.getElementById("formStatus").textContent =
+    "❌ Podés subir como máximo 3 fotos.";
+  return;
+}
+
+const imageUrls = [];
+
+for (const file of files) {
+
+  if (file.size > 1024 * 1024) {
+    document.getElementById("formStatus").textContent =
+      "❌ Cada foto debe pesar menos de 1 MB.";
+    return;
+  }
+
+  const extension = file.name.split(".").pop();
+  const fileName =
+    `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+  const { error: uploadError } = await supabaseClient.storage
+    .from("anuncios")
+    .upload(fileName, file);
+
+  if (uploadError) {
+    console.error(uploadError);
+    document.getElementById("formStatus").textContent =
+      "❌ No se pudieron subir las fotos.";
+    return;
+  }
+
+  const { data: publicUrlData } = supabaseClient.storage
+    .from("anuncios")
+    .getPublicUrl(fileName);
+
+  imageUrls.push(publicUrlData.publicUrl);
+}
+
+const anuncio = {
+  categoria: document.getElementById("category").value,
+  titulo: document.getElementById("title").value.trim(),
+  descripcion: document.getElementById("description").value.trim(),
+  ciudad: ciudad,
+  precio: document.getElementById("price").value.trim(),
+  contacto: document.getElementById("contact").value.trim(),
+  imagen_url: imageUrls.length ? JSON.stringify(imageUrls) : null,
+  estado: "pendiente"
+};
 
   document.getElementById("formStatus").textContent = "Publicando...";
 
