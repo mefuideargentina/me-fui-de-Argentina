@@ -77,7 +77,11 @@ function render(){
     ${x.images && x.images.length ? `
   <div class="listing-images">
     ${x.images.map(img => `
-      <img src="${safe(img)}" alt="${safe(x.title)}">
+      <img
+  src="${safe(img)}"
+  alt="${safe(x.title)}"
+  onclick="openImage('${safe(img)}')"
+>
     `).join("")}
   </div>
 ` : ""}
@@ -302,6 +306,7 @@ function renderContact(contact){
   return `📩 Contacto: ${safe(c)}`;
 }
 
+openImage(...)
 renderGroups();
 loadApprovedListings();
 loadCommunityGroups();
