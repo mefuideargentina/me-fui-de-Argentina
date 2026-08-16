@@ -193,7 +193,15 @@
       <label>Contacto
         <input id="contact" required placeholder="@instagram, WhatsApp o email">
       </label>
-
+<label>Fotos (máximo 3)
+  <input
+    id="images"
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    multiple
+  >
+  <small>Podés subir hasta 3 imágenes de máximo 1 MB cada una.</small>
+</label>
       <button type="submit" class="btn btn-blue full">Publicar anuncio</button>
       <div id="formStatus" class="status"></div>
     </form>
