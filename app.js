@@ -424,3 +424,26 @@ function contactCollaborations() {
 
   chatbotPanel.classList.remove("open");
 }
+const startCityQuiz = document.getElementById("startCityQuiz");
+const cityQuizStart = document.getElementById("cityQuizStart");
+const cityQuizContent = document.getElementById("cityQuizContent");
+
+if (startCityQuiz && cityQuizStart && cityQuizContent) {
+  startCityQuiz.addEventListener("click", () => {
+    cityQuizStart.style.display = "none";
+    cityQuizContent.style.display = "block";
+
+    cityQuizContent.innerHTML = `
+      <div class="quiz-question">
+        <span class="quiz-step">Pregunta 1 de 6</span>
+        <h3>¿Qué clima preferís?</h3>
+
+        <div class="quiz-answers">
+          <button>☀️ Calor y mucho sol</button>
+          <button>🌤️ Clima templado</button>
+          <button>❄️ Fresco y estaciones marcadas</button>
+        </div>
+      </div>
+    `;
+  });
+}
