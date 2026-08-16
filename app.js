@@ -353,3 +353,18 @@ function openImage(url){
 renderGroups();
 loadApprovedListings();
 loadCommunityGroups();
+const chatbotButton = document.getElementById("chatbotButton");
+const chatbotPanel = document.getElementById("chatbotPanel");
+const chatbotClose = document.getElementById("chatbotClose");
+
+if (chatbotButton && chatbotPanel) {
+  chatbotButton.addEventListener("click", () => {
+    chatbotPanel.classList.toggle("open");
+  });
+}
+
+if (chatbotClose && chatbotPanel) {
+  chatbotClose.addEventListener("click", () => {
+    chatbotPanel.classList.remove("open");
+  });
+}
