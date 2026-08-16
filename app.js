@@ -81,7 +81,7 @@ function render(){
   }
 
   grid.innerHTML = data.map(x=>`
-    <article class="listing-card">
+   <article class="listing-card ${x.featured ? "featured-card" : ""}">
     ${x.images && x.images.length ? `
   <div class="listing-images">
     ${x.images.map(img => `
