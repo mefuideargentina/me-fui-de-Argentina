@@ -238,18 +238,29 @@ async function loadCommunityGroups() {
 function getGroupIcon(category, name) {
   const groupName = (name || "").toLowerCase();
 
-  if (groupName.includes("volley") || groupName.includes("voley")) {
+  // Vóley
+  if (
+    groupName.includes("volley") ||
+    groupName.includes("voley") ||
+    groupName.includes("vóley")
+  ) {
     return "🏐";
   }
 
-  if (groupName.includes("futbol") || groupName.includes("fulbito")) {
+  // Fútbol
+  if (
+    groupName.includes("futbol") ||
+    groupName.includes("fútbol") ||
+    groupName.includes("fulbito") ||
+    groupName.includes("football")
+  ) {
     return "⚽";
   }
 
   const icons = {
     trabajo: "💼",
     vivienda: "🏠",
-    general: "🇦🇷",
+    general: "👥",
     servicios: "📢",
     compraventa: "🛒",
     social: "🧉",
