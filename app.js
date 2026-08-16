@@ -48,6 +48,7 @@ async function loadApprovedListings(){
         price: x.precio,
         description: x.descripcion,
         contact: x.contacto,
+        images: x.imagen_url ? JSON.parse(x.imagen_url) : [],
         age: "Publicado recientemente"
     }));
 
@@ -73,6 +74,13 @@ function render(){
 
   grid.innerHTML = data.map(x=>`
     <article class="listing-card">
+    ${x.images && x.images.length ? `
+  <div class="listing-images">
+    ${x.images.map(img => `
+      <img src="${safe(img)}" alt="${safe(x.title)}">
+    `).join("")}
+  </div>
+` : ""}
       <div class="meta">
         <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
         <span class="age">${safe(x.age)}</span>
