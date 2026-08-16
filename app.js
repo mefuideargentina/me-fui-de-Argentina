@@ -81,7 +81,7 @@ function render(){
       <p>${safe(x.description)}</p>
       <div class="bottom">
         <span>📍 ${safe(x.location)}</span>
-        <strong>${safe(x.price || "Consultar")}</strong>
+        <strong>${x.price ? `${safe(x.price)} €` : "Consultar"}</strong>
       </div>
       <div class="contacto">
   ${renderContact(x.contact)}
