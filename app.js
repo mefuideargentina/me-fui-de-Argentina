@@ -94,9 +94,13 @@ function render(){
   </div>
 ` : ""}
       <div class="meta">
-        <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
-        <span class="age">${safe(x.age)}</span>
-      </div>
+  <div>
+    ${x.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}
+    <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
+  </div>
+
+  <span class="age">${safe(x.age)}</span>
+</div>
       <h3>${safe(x.title)}</h3>
       <p>${safe(x.description)}</p>
       <div class="bottom">
