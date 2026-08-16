@@ -954,3 +954,26 @@ footer{border-top:1px solid #eee;padding:28px 0}
     background: #f3f4f6;
   }
 }
+.chatbot-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.chatbot-group + .chatbot-group {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.chatbot-group-title {
+  padding: 0 2px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.chatbot-group button {
+  margin: 0;
+}
