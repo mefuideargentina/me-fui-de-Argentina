@@ -226,7 +226,7 @@ async function loadCommunityGroups() {
   communityGroups = data.map(g => ({
     name: g.nombre,
     category: g.categoria,
-    icon: getGroupIcon(g.categoria),
+    icon: getGroupIcon(g.categoria, g.nombre),
     description: g.descripcion,
     url: g.enlace,
     city: g.ciudad
@@ -235,7 +235,17 @@ async function loadCommunityGroups() {
   renderGroups();
 }
 
-function getGroupIcon(category) {
+function getGroupIcon(category, name) {
+  const groupName = (name || "").toLowerCase();
+
+  if (groupName.includes("volley") || groupName.includes("voley")) {
+    return "🏐";
+  }
+
+  if (groupName.includes("futbol") || groupName.includes("fulbito")) {
+    return "⚽";
+  }
+
   const icons = {
     trabajo: "💼",
     vivienda: "🏠",
@@ -243,7 +253,7 @@ function getGroupIcon(category) {
     servicios: "📢",
     compraventa: "🛒",
     social: "🧉",
-    deportes: "⚽"
+    deportes: "🏃"
   };
 
   return icons[category] || "💬";
