@@ -168,3 +168,64 @@ footer{border-top:1px solid #eee;padding:28px 0}
 .contacto a:hover{
   text-decoration:underline;
 }
+/* ===== MEJORA VISUAL DE ANUNCIOS ===== */
+
+.listing-card{
+  background:#fff;
+  border:1px solid #e8edf3;
+  border-radius:16px;
+  padding:18px;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.listing-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(16,24,40,.08);
+  border-color:#d0d9e5;
+}
+
+.listing-card h3{
+  margin:10px 0 6px;
+  font-size:18px;
+  color:#101828;
+}
+
+.listing-card p{
+  color:#667085;
+  line-height:1.5;
+}
+
+.listing-card .bottom{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid #eef1f5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.listing-card .bottom strong{
+  font-size:17px;
+  color:#101828;
+}
+
+.contacto{
+  margin-top:12px;
+  padding:10px 12px;
+  background:#f7f9fc;
+  border-radius:10px;
+  border-top:0;
+  font-size:13px;
+}
+
+.contacto a{
+  display:inline-block;
+  color:#1769ee;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.contacto a:hover{
+  text-decoration:underline;
+}
