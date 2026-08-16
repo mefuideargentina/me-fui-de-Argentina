@@ -559,6 +559,10 @@ function showCityQuizResult() {
   const second = sortedCities[1][0];
   const third = sortedCities[2][0];
 
+  const winnerScore = sortedCities[0][1];
+  const maxPossibleScore = cityQuizQuestions.length * 3;
+  const matchPercent = Math.round((winnerScore / maxPossibleScore) * 100);
+
   const cityNames = {
     Madrid: "Madrid",
     Barcelona: "Barcelona",
@@ -583,6 +587,8 @@ function showCityQuizResult() {
     <div class="quiz-result">
       <span class="quiz-step">🎉 TU CIUDAD IDEAL</span>
 
+      <div class="quiz-match">${matchPercent}% match</div>
+
       <h3>${cityNames[winner]}</h3>
 
       <p>${cityDescriptions[winner]}</p>
@@ -592,9 +598,15 @@ function showCityQuizResult() {
         <span>${cityNames[second]} · ${cityNames[third]}</span>
       </div>
 
-      <button class="btn btn-blue" onclick="restartCityQuiz()">
-        Repetir test
-      </button>
+      <div class="quiz-result-actions">
+        <button class="btn btn-blue" onclick="goToCityListings('${winner}')">
+          Ver anuncios en ${cityNames[winner]}
+        </button>
+
+        <button class="btn" onclick="restartCityQuiz()">
+          Repetir test
+        </button>
+      </div>
     </div>
   `;
 }
