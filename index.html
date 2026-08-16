@@ -439,7 +439,39 @@
 <button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente">
   💬
 </button>
+<div id="reportModal" class="report-modal">
+  <div class="report-modal-card">
+    <button id="reportModalClose" class="report-modal-close">×</button>
 
+    <h3>⚠️ Reportar publicación</h3>
+    <p id="reportListingTitle"></p>
+
+    <label>
+      Motivo
+      <select id="reportReason">
+        <option value="Posible estafa">Posible estafa</option>
+        <option value="Información falsa">Información falsa</option>
+        <option value="Contenido inapropiado">Contenido inapropiado</option>
+        <option value="Publicación duplicada">Publicación duplicada</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </label>
+
+    <label>
+      Comentario
+      <textarea
+        id="reportComment"
+        placeholder="Contanos brevemente qué pasó..."
+      ></textarea>
+    </label>
+
+    <button id="sendReportButton" class="btn btn-blue full">
+      Enviar reporte
+    </button>
+
+    <div id="reportStatus" class="status"></div>
+  </div>
+</div>
 <script src="app.js?v=17"></script>
 </body>
 </html>
