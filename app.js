@@ -71,7 +71,9 @@ function render(){
   const grid = document.getElementById("listingGrid");
   const data = getAll().filter(x=>{
     const cat = currentFilter==="todos" || x.category===currentFilter;
-    const city = currentCity==="todas" || x.city===currentCity;
+    const city =
+  currentCity === "todas" ||
+  (x.city || "").trim().toLowerCase() === currentCity.trim().toLowerCase();
     return cat && city;
   });
 
