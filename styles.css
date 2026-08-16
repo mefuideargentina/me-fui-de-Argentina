@@ -30,16 +30,51 @@ nav a.active{color:var(--blue);border-bottom-color:var(--blue)}
 .btn-white{background:white;border:1px solid #dfe5ec;color:#1d2939}
 .full{width:100%}
 
-.hero{background:linear-gradient(135deg,#edf7ff,#f8fcff 55%,#eef7ff);padding:55px 0 48px}
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(116,192,252,.25), transparent 32%),
+    radial-gradient(circle at 88% 18%, rgba(255,193,7,.16), transparent 30%),
+    radial-gradient(circle at 72% 85%, rgba(239,68,68,.08), transparent 28%),
+    linear-gradient(135deg,#f4faff 0%,#ffffff 52%,#f8fbff 100%);
+  padding:65px 0 58px;
+}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
-.welcome{display:inline-block;background:#fff1bf;color:#b86000;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px}
+.welcome{
+  display:inline-block;
+  background:rgba(255,243,191,.78);
+  border:1px solid rgba(245,158,11,.18);
+  color:#a95700;
+  padding:8px 13px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  backdrop-filter:blur(8px);
+}
 .hero h1{font-size:56px;line-height:1.08;letter-spacing:-.04em;margin:20px 0 16px}
 .hero h1 span{color:var(--blue)}
 .hero p{color:#475467;font-size:18px;line-height:1.6;max-width:650px}
 .hero-actions{display:flex;gap:12px;margin-top:24px}
 
 .hero-visual{position:relative;min-height:300px;display:grid;place-items:center}
-.spain-card{width:330px;height:220px;background:white;border-radius:30px;box-shadow:0 20px 40px rgba(16,24,40,.08);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transform:rotate(-2deg)}
+.spain-card{
+  width:330px;
+  height:220px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:30px;
+  box-shadow:
+    0 24px 60px rgba(37,99,235,.12),
+    0 6px 18px rgba(16,24,40,.06);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  transform:none;
+}
 .spain-shape{font-size:72px}
 .spain-card strong{font-size:24px;margin-top:12px}
 .spain-card small{color:var(--muted);margin-top:5px}
