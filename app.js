@@ -447,3 +447,14 @@ if (startCityQuiz && cityQuizStart && cityQuizContent) {
     `;
   });
 }
+function goToCityQuiz() {
+  const quizSection = document.getElementById("cityQuiz");
+
+  if (quizSection) {
+    quizSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  chatbotPanel.classList.remove("open");
+}
