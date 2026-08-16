@@ -428,24 +428,191 @@ const startCityQuiz = document.getElementById("startCityQuiz");
 const cityQuizStart = document.getElementById("cityQuizStart");
 const cityQuizContent = document.getElementById("cityQuizContent");
 
+const cityQuizQuestions = [
+  {
+    question: "¿Qué clima preferís?",
+    answers: [
+      { text: "☀️ Calor y mucho sol", points: { Malaga: 3, Sevilla: 3, Alicante: 2, Valencia: 2 } },
+      { text: "🌤️ Clima templado", points: { Valencia: 3, Alicante: 3, Barcelona: 2, Malaga: 2 } },
+      { text: "❄️ Fresco y estaciones marcadas", points: { Bilbao: 3, Madrid: 2, Barcelona: 1 } }
+    ]
+  },
+  {
+    question: "¿Qué tamaño de ciudad te gusta más?",
+    answers: [
+      { text: "🏙️ Grande, con de todo", points: { Madrid: 3, Barcelona: 3, Valencia: 1 } },
+      { text: "🌆 Mediana y activa", points: { Valencia: 3, Malaga: 2, Alicante: 2, Bilbao: 2 } },
+      { text: "🌿 Más tranquila", points: { Alicante: 3, Malaga: 2, Sevilla: 2 } }
+    ]
+  },
+  {
+    question: "¿Qué tan importante es tener mar cerca?",
+    answers: [
+      { text: "🌊 Imprescindible", points: { Valencia: 3, Barcelona: 3, Malaga: 3, Alicante: 3, Bilbao: 2 } },
+      { text: "🙂 Me gusta, pero no es decisivo", points: { Madrid: 2, Sevilla: 2, Valencia: 2, Barcelona: 2 } },
+      { text: "⛰️ Me da igual, prefiero otras cosas", points: { Madrid: 3, Bilbao: 2, Sevilla: 2 } }
+    ]
+  },
+  {
+    question: "¿Qué tan importante es gastar poco en alquiler?",
+    answers: [
+      { text: "💸 Muchísimo", points: { Alicante: 3, Sevilla: 3, Malaga: 2 } },
+      { text: "⚖️ Busco equilibrio", points: { Valencia: 3, Malaga: 2, Bilbao: 2 } },
+      { text: "💳 Puedo pagar más si la ciudad lo vale", points: { Madrid: 3, Barcelona: 3, Valencia: 1 } }
+    ]
+  },
+  {
+    question: "¿Qué ritmo de vida preferís?",
+    answers: [
+      { text: "⚡ Mucho movimiento", points: { Madrid: 3, Barcelona: 3 } },
+      { text: "👌 Equilibrado", points: { Valencia: 3, Malaga: 2, Bilbao: 2 } },
+      { text: "😌 Más tranquilo", points: { Alicante: 3, Sevilla: 2, Malaga: 2 } }
+    ]
+  },
+  {
+    question: "¿Qué priorizás más al elegir ciudad?",
+    answers: [
+      { text: "💼 Trabajo y oportunidades", points: { Madrid: 3, Barcelona: 3, Valencia: 2 } },
+      { text: "🍻 Vida social y planes", points: { Madrid: 3, Barcelona: 3, Valencia: 2, Malaga: 2 } },
+      { text: "❤️ Calidad de vida", points: { Valencia: 3, Malaga: 3, Alicante: 2, Bilbao: 2 } }
+    ]
+  }
+];
+
+let cityQuizCurrentQuestion = 0;
+
+let cityQuizScores = {
+  Madrid: 0,
+  Barcelona: 0,
+  Valencia: 0,
+  Malaga: 0,
+  Alicante: 0,
+  Sevilla: 0,
+  Bilbao: 0
+};
+
 if (startCityQuiz && cityQuizStart && cityQuizContent) {
   startCityQuiz.addEventListener("click", () => {
     cityQuizStart.style.display = "none";
     cityQuizContent.style.display = "block";
 
-    cityQuizContent.innerHTML = `
-      <div class="quiz-question">
-        <span class="quiz-step">Pregunta 1 de 6</span>
-        <h3>¿Qué clima preferís?</h3>
+    cityQuizCurrentQuestion = 0;
 
-        <div class="quiz-answers">
-          <button>☀️ Calor y mucho sol</button>
-          <button>🌤️ Clima templado</button>
-          <button>❄️ Fresco y estaciones marcadas</button>
-        </div>
-      </div>
-    `;
+    cityQuizScores = {
+      Madrid: 0,
+      Barcelona: 0,
+      Valencia: 0,
+      Malaga: 0,
+      Alicante: 0,
+      Sevilla: 0,
+      Bilbao: 0
+    };
+
+    renderCityQuizQuestion();
   });
+}
+
+function renderCityQuizQuestion() {
+  const question = cityQuizQuestions[cityQuizCurrentQuestion];
+
+  cityQuizContent.innerHTML = `
+    <div class="quiz-question">
+      <span class="quiz-step">
+        Pregunta ${cityQuizCurrentQuestion + 1} de ${cityQuizQuestions.length}
+      </span>
+
+      <h3>${question.question}</h3>
+
+      <div class="quiz-answers">
+        ${question.answers.map((answer, index) => `
+          <button onclick="answerCityQuiz(${index})">
+            ${answer.text}
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function answerCityQuiz(answerIndex) {
+  const question = cityQuizQuestions[cityQuizCurrentQuestion];
+  const answer = question.answers[answerIndex];
+
+  Object.entries(answer.points).forEach(([city, points]) => {
+    cityQuizScores[city] += points;
+  });
+
+  cityQuizCurrentQuestion++;
+
+  if (cityQuizCurrentQuestion < cityQuizQuestions.length) {
+    renderCityQuizQuestion();
+  } else {
+    showCityQuizResult();
+  }
+}
+
+function showCityQuizResult() {
+  const sortedCities = Object.entries(cityQuizScores)
+    .sort((a, b) => b[1] - a[1]);
+
+  const winner = sortedCities[0][0];
+  const second = sortedCities[1][0];
+  const third = sortedCities[2][0];
+
+  const cityNames = {
+    Madrid: "Madrid",
+    Barcelona: "Barcelona",
+    Valencia: "Valencia",
+    Malaga: "Málaga",
+    Alicante: "Alicante",
+    Sevilla: "Sevilla",
+    Bilbao: "Bilbao"
+  };
+
+  const cityDescriptions = {
+    Madrid: "Movimiento, trabajo, cultura y una ciudad que nunca para.",
+    Barcelona: "Gran ciudad, mar, cultura y muchísima vida social.",
+    Valencia: "Mar, buen clima y un equilibrio muy fuerte entre ciudad y calidad de vida.",
+    Malaga: "Sol, costa y un ritmo relajado sin renunciar a una ciudad activa.",
+    Alicante: "Mar, tranquilidad y una vida más relajada.",
+    Sevilla: "Calor, cultura, vida social y mucho carácter.",
+    Bilbao: "Naturaleza, gastronomía y una ciudad más fresca y tranquila."
+  };
+
+  cityQuizContent.innerHTML = `
+    <div class="quiz-result">
+      <span class="quiz-step">🎉 TU CIUDAD IDEAL</span>
+
+      <h3>${cityNames[winner]}</h3>
+
+      <p>${cityDescriptions[winner]}</p>
+
+      <div class="quiz-alternatives">
+        <strong>También podrían encajar con vos:</strong>
+        <span>${cityNames[second]} · ${cityNames[third]}</span>
+      </div>
+
+      <button class="btn btn-blue" onclick="restartCityQuiz()">
+        Repetir test
+      </button>
+    </div>
+  `;
+}
+
+function restartCityQuiz() {
+  cityQuizCurrentQuestion = 0;
+
+  cityQuizScores = {
+    Madrid: 0,
+    Barcelona: 0,
+    Valencia: 0,
+    Malaga: 0,
+    Alicante: 0,
+    Sevilla: 0,
+    Bilbao: 0
+  };
+
+  renderCityQuizQuestion();
 }
 function goToCityQuiz() {
   const quizSection = document.getElementById("cityQuiz");
