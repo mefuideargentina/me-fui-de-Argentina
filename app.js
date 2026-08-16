@@ -84,7 +84,7 @@ function render(){
         <strong>${safe(x.price || "Consultar")}</strong>
       </div>
       <div class="contacto">
-  📩 Contacto: ${safe(x.contact || "No especificado")}
+  ${renderContact(x.contact)}
 </div>
     </article>
   `).join("");
@@ -226,6 +226,33 @@ document.querySelectorAll(".group-filter").forEach(btn=>{
 });
 
 document.getElementById("groupCity").addEventListener("change",renderGroups);
+function renderContact(contact){
+  if(!contact) return "📩 Contacto: No especificado";
+
+  const c = contact.trim();
+
+  if(c.startsWith("@")){
+    const user = c.substring(1);
+    return `📸 <a href="https://instagram.com/${safe(user)}" target="_blank" rel="noopener">Contactar por Instagram</a>`;
+  }
+
+  if(c.includes("@") && c.includes(".")){
+    return `✉️ <a href="mailto:${safe(c)}">Enviar email</a>`;
+  }
+
+  const digits = c.replace(/\D/g,"");
+
+  if(digits.length >= 9){
+    return `💬 <a href="https://wa.me/${digits}" target="_blank" rel="noopener">Contactar por WhatsApp</a>`;
+  }
+
+  if(c.startsWith("http://") || c.startsWith("https://")){
+    return `🔗 <a href="${safe(c)}" target="_blank" rel="noopener">Abrir contacto</a>`;
+  }
+
+  return `📩 Contacto: ${safe(c)}`;
+}
+
 renderGroups();
 loadApprovedListings();
 loadCommunityGroups();
