@@ -76,9 +76,14 @@
       Iniciar sesión
     </button>
 
-    <div id="mensaje"></div><div id="panel" style="display:none; margin-top:30px;">
-  <h2>Anuncios pendientes</h2>
+    <div id="mensaje"></div>
+
+<div id="panel" style="display:none; margin-top:30px;"> 
+  <h2>Anuncios pendientes</h2> 
   <div id="pendientes"></div>
+
+  <h2 style="margin-top:40px;">Anuncios aprobados</h2>
+  <div id="aprobados"></div>
 </div>
     
   </div>
@@ -111,6 +116,7 @@
       mensaje.textContent = "✅ Sesión iniciada correctamente.";
 document.getElementById("panel").style.display = "block";
 cargarPendientes();
+      cargarAprobados();
     }
     async function cargarPendientes() {
   const contenedor = document.getElementById("pendientes");
@@ -199,7 +205,52 @@ async function cambiarEstado(id, estado) {
   }
 
   alert("⭐ Anuncio destacado por 7 días.");
+  cargarAprobados();  
 } 
+    async function cargarAprobados() {
+  const contenedor = document.getElementById("aprobados");
+  contenedor.innerHTML = "Cargando...";
+
+  const { data, error } = await supabaseClient
+    .from("anuncios")
+    .select("*")
+    .eq("estado", "aprobado")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    contenedor.innerHTML = "❌ No se pudieron cargar los anuncios aprobados.";
+    console.error(error);
+    return;
+  }
+
+  if (!data.length) {
+    contenedor.innerHTML = "<p>No hay anuncios aprobados.</p>";
+    return;
+  }
+
+  contenedor.innerHTML = data.map(a => `
+    <div style="
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:16px;
+      margin-bottom:14px;
+      background:#fff;
+    ">
+      <strong>${a.titulo}</strong>
+      <p>${a.descripcion || ""}</p>
+      <p><b>Ciudad:</b> ${a.ciudad || ""}</p>
+      <p><b>Precio:</b> ${a.precio || "Consultar"}</p>
+      <p><b>Contacto:</b> ${a.contacto || ""}</p>
+
+      <button
+        onclick="destacarAnuncio('${a.id}')"
+        style="background:#f59e0b;"
+      >
+        ⭐ Destacar 7 días
+      </button>
+    </div>
+  `).join("");
+}
   </script>
 
 </body>
