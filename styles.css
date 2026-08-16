@@ -483,3 +483,71 @@ footer{border-top:1px solid #eee;padding:28px 0}
     min-height:240px;
   }
 }
+/* ===== AJUSTE FINAL HERO ===== */
+
+.spain-card{
+  transform:none !important;
+}
+
+/* MÓVIL */
+@media(max-width:899px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero-visual{
+    width:100%;
+    padding-top:14px;
+  }
+
+  .spain-card{
+    width:100%;
+    max-width:none;
+    min-height:155px;
+    box-sizing:border-box;
+  }
+}
+
+/* ESCRITORIO */
+@media(min-width:900px){
+  .hero{
+    padding:60px 0 70px;
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr);
+    align-items:center;
+    gap:70px;
+  }
+
+  .hero-copy{
+    max-width:720px;
+  }
+
+  .hero-copy h1{
+    font-size:62px;
+    line-height:1.02;
+  }
+
+  .hero-actions{
+    display:flex;
+    gap:12px;
+  }
+
+  .hero-actions .btn{
+    width:auto;
+  }
+
+  .hero-visual{
+    width:100%;
+    padding:0;
+  }
+
+  .spain-card{
+    width:100%;
+    max-width:430px;
+    min-height:220px;
+    margin:0 auto;
+  }
+}
