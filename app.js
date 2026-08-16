@@ -599,9 +599,15 @@ function showCityQuizResult() {
       </div>
 
       <div class="quiz-result-actions">
-        <button class="btn btn-blue" onclick="goToCityListings('${winner}')">
-          Ver anuncios en ${cityNames[winner]}
-        </button>
+        ${winner === "Valencia" ? `
+  <button class="btn btn-blue" onclick="goToCityListings('${winner}')">
+    Ver anuncios en ${cityNames[winner]}
+  </button>
+` : `
+  <button class="btn btn-blue" onclick="showCityComingSoon('${cityNames[winner]}')">
+    Próximamente en ${cityNames[winner]}
+  </button>
+`}
 
         <button class="btn" onclick="restartCityQuiz()">
           Repetir test
@@ -663,4 +669,7 @@ function goToCityListings(city) {
       behavior: "smooth"
     });
   }
+}
+function showCityComingSoon(cityName) {
+  alert(`🚀 Estamos preparando la comunidad en ${cityName}. Muy pronto vas a poder ver anuncios, grupos y recomendaciones.`);
 }
