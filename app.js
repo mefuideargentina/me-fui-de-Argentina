@@ -101,7 +101,15 @@ function render(){
   }
 
   grid.innerHTML = data.map(x=>`
-   <article class="listing-card ${x.featured ? "featured-card" : ""}">
+   <article class="listing-card ${x.featured ? "featured-card" : ""} ${x.images && x.images.length ? "has-images" : "no-images"}">
+      <div class="meta">
+  <div>
+    ${x.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}
+    <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
+  </div>
+
+  <span class="age">${safe(x.age)}</span>
+</div>
     ${x.images && x.images.length ? `
   <div class="listing-images">
     ${x.images.map(img => `
@@ -113,14 +121,6 @@ function render(){
     `).join("")}
   </div>
 ` : ""}
-      <div class="meta">
-  <div>
-    ${x.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}
-    <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
-  </div>
-
-  <span class="age">${safe(x.age)}</span>
-</div>
       <h3>${safe(x.title)}</h3>
       <p>${safe(x.description)}</p>
       <div class="bottom">
@@ -417,11 +417,17 @@ loadCommunityGroups();
 const chatbotButton = document.getElementById("chatbotButton");
 const chatbotPanel = document.getElementById("chatbotPanel");
 const chatbotClose = document.getElementById("chatbotClose");
+const chatConversation = document.getElementById("chatConversation");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
 
 if (chatbotButton && chatbotPanel) {
   chatbotButton.addEventListener("click", () => {
     chatbotPanel.classList.toggle("open");
     chatbotButton.setAttribute("aria-expanded", chatbotPanel.classList.contains("open"));
+    if (chatbotPanel.classList.contains("open")) {
+      window.setTimeout(() => chatInput?.focus(), 120);
+    }
   });
 }
 
@@ -431,6 +437,158 @@ if (chatbotClose && chatbotPanel) {
     chatbotButton?.setAttribute("aria-expanded", "false");
   });
 }
+
+function normalizeChatText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
+function addChatMessage(text, role = "bot", actions = []) {
+  if (!chatConversation) return;
+  const message = document.createElement("div");
+  message.className = `chat-message ${role === "user" ? "user-message" : "bot-message"}`;
+
+  if (role !== "user") {
+    const avatar = document.createElement("span");
+    avatar.className = "chat-avatar";
+    avatar.textContent = "MF";
+    message.appendChild(avatar);
+  }
+
+  const bubble = document.createElement("div");
+  const paragraph = document.createElement("p");
+  paragraph.textContent = text;
+  bubble.appendChild(paragraph);
+
+  if (actions.length) {
+    const actionRow = document.createElement("div");
+    actionRow.className = "chat-actions";
+    actions.forEach(action => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = action.label;
+      button.addEventListener("click", () => handleChatAction(action));
+      actionRow.appendChild(button);
+    });
+    bubble.appendChild(actionRow);
+  }
+
+  message.appendChild(bubble);
+  chatConversation.appendChild(message);
+  chatConversation.scrollTop = chatConversation.scrollHeight;
+}
+
+function getChatReply(rawText) {
+  const text = normalizeChatText(rawText);
+
+  if (/hola|buenas|buen dia|buenas tardes|buenas noches/.test(text)) {
+    return { text: "¡Buenas! Puedo orientarte con vivienda, trabajo, grupos, publicaciones, ciudades y servicios en Valencia.", actions: [] };
+  }
+  if (/vivienda|alquiler|habitacion|piso|casa|alojamiento/.test(text)) {
+    return {
+      text: "Te muestro las publicaciones de vivienda. Antes de reservar, verificá identidad, condiciones y que el alojamiento exista.",
+      actions: [
+        { label: "Ver vivienda", type: "listings", value: "vivienda" },
+        { label: "Consejos de seguridad", type: "section", value: "seguridad" }
+      ]
+    };
+  }
+  if (/trabajo|empleo|curro|oferta laboral|cv|curriculum/.test(text)) {
+    return {
+      text: "Podés revisar las publicaciones de trabajo disponibles. Si todavía no aparece lo tuyo, probá también el grupo de la comunidad.",
+      actions: [
+        { label: "Ver trabajo", type: "listings", value: "trabajo" },
+        { label: "Ir a grupos", type: "groups" }
+      ]
+    };
+  }
+  if (/grupo|whatsapp|comunidad|conocer gente|amistad|futbol|voley|planes/.test(text)) {
+    return {
+      text: "Valencia es nuestra primera comunidad activa. Ahí podés encontrar grupos por intereses y necesidades.",
+      actions: [{ label: "Ver grupos de Valencia", type: "groups" }]
+    };
+  }
+  if (/publicar|publicacion|anuncio|vendo|ofrezco|busco compartir/.test(text)) {
+    return {
+      text: "Podés publicar gratis. Revisamos el anuncio antes de mostrarlo para cuidar la calidad de la comunidad.",
+      actions: [{ label: "Crear publicación", type: "publish" }]
+    };
+  }
+  if (/gestor|gestoria|abogado|psicolog|mudanza|profesional|servicio|tramite|nie|tie/.test(text)) {
+    return {
+      text: "Estamos preparando la red profesional en Valencia. Todavía no mostramos perfiles hasta que estén listos para recibir consultas.",
+      actions: [
+        { label: "Ver servicios", type: "section", value: "servicios" },
+        { label: "Presentar mi servicio", type: "instagram" }
+      ]
+    };
+  }
+  if (/ciudad|madrid|barcelona|malaga|alicante|sevilla|bilbao|donde vivir|valencia/.test(text)) {
+    return {
+      text: "Si estás comparando ciudades, el test puede ayudarte a ordenar preferencias de clima, tamaño y estilo de vida.",
+      actions: [{ label: "Hacer el test", type: "quiz" }]
+    };
+  }
+  if (/estafa|segur|pago|transferencia|reserva|sospech|report/.test(text)) {
+    return {
+      text: "No intermediamos pagos. Nunca transfieras una reserva sin verificar a la persona, las condiciones y la existencia del alojamiento o servicio.",
+      actions: [{ label: "Ver recomendaciones", type: "section", value: "seguridad" }]
+    };
+  }
+  if (/negocio|marca|colaboracion|publicidad|destacar|patrocin/.test(text)) {
+    return {
+      text: "Tenemos opciones para negocios y colaboraciones, cuidando que lo destacado o patrocinado se identifique con claridad.",
+      actions: [
+        { label: "Ver opciones", type: "business" },
+        { label: "Contactar", type: "instagram" }
+      ]
+    };
+  }
+
+  return {
+    text: "Todavía estoy aprendiendo. Probá preguntarme por vivienda, trabajo, grupos, publicar, ciudades, seguridad o servicios profesionales.",
+    actions: [
+      { label: "Explorar publicaciones", type: "section", value: "anuncios" },
+      { label: "Ver grupos", type: "groups" }
+    ]
+  };
+}
+
+function handleChatAction(action) {
+  if (action.type === "listings") goToListings(action.value);
+  if (action.type === "groups") goToGroups();
+  if (action.type === "publish") goToPublish();
+  if (action.type === "quiz") goToCityQuiz();
+  if (action.type === "business") goToBusiness();
+  if (action.type === "instagram") contactCollaborations();
+  if (action.type === "section") {
+    document.getElementById(action.value)?.scrollIntoView({ behavior: "smooth" });
+    chatbotPanel?.classList.remove("open");
+    chatbotButton?.setAttribute("aria-expanded", "false");
+  }
+}
+
+function askChat(question) {
+  const cleanQuestion = String(question || "").trim();
+  if (!cleanQuestion) return;
+  addChatMessage(cleanQuestion, "user");
+  const reply = getChatReply(cleanQuestion);
+  window.setTimeout(() => addChatMessage(reply.text, "bot", reply.actions), 240);
+}
+
+document.querySelectorAll("[data-chat-question]").forEach(button => {
+  button.addEventListener("click", () => askChat(button.dataset.chatQuestion));
+});
+
+chatForm?.addEventListener("submit", event => {
+  event.preventDefault();
+  const question = chatInput?.value;
+  if (chatInput) chatInput.value = "";
+  askChat(question);
+});
 function goToGroups() {
   const groupsSection = document.getElementById("grupos");
 

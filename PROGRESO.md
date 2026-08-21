@@ -31,6 +31,13 @@
 - Aviso antiestafa visible: verificar identidad, condiciones y existencia antes de transferir una reserva.
 - La sección de servicios funciona como convocatoria para captar los primeros profesionales, con contacto directo por Instagram.
 
+## Publicaciones y asistente v23
+
+- Las categorías de las publicaciones mantienen la misma posición con o sin fotografías.
+- La red profesional comunica su estado como “próximamente en Valencia” y evita el tono institucional de “convocatoria abierta”.
+- Nuevo asistente conversacional beta con campo de texto, detección de necesidades y accesos contextuales a vivienda, trabajo, grupos, publicación, ciudades, seguridad y servicios.
+- El asistente funciona sin exponer claves privadas ni atribuirse capacidades de IA generativa que todavía no tiene.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
