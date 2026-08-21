@@ -5,15 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Me Fui de Argentina — Comunidad de argentinos en España</title>
   <meta name="description" content="Vivienda, trabajo, grupos, eventos y comunidad para argentinos que viven en España o están por llegar.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="theme-color" content="#10213f">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Me Fui de Argentina — No llegás solo">
   <meta property="og:description" content="Todo lo que necesitás para empezar en España, acompañado por la comunidad argentina.">
   <meta property="og:url" content="https://mefuideargentina.github.io/">
   <meta property="og:image" content="https://mefuideargentina.github.io/assets/hero-community.webp">
+  <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://mefuideargentina.github.io/">
-  <link rel="stylesheet" href="styles.css?v=23">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=24">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {"@type":"WebSite","name":"Me Fui de Argentina","url":"https://mefuideargentina.github.io/","description":"Comunidad y recursos para argentinos que viven o quieren vivir en España."},
+      {"@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":"¿La comunidad está activa en toda España?","acceptedAnswer":{"@type":"Answer","text":"Valencia es la primera ciudad activa. El proyecto está preparado para sumar otras ciudades progresivamente."}},
+        {"@type":"Question","name":"¿Publicar un anuncio es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. Las publicaciones comunitarias son gratuitas y pasan por una revisión antes de mostrarse."}},
+        {"@type":"Question","name":"¿Me Fui de Argentina verifica cada oferta?","acceptedAnswer":{"@type":"Answer","text":"Las publicaciones se moderan antes de aparecer, pero la plataforma no garantiza ni intermedia los acuerdos entre particulares."}}
+      ]}
+    ]
+  }
+  </script>
 </head>
 <body>
 <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
@@ -32,6 +49,7 @@
       <a href="#inicio" class="active">Inicio</a>
       <a href="#explorar">Anuncios</a>
       <a href="#grupos">Grupos</a>
+      <a href="#valencia">Valencia</a>
       <a href="#negocios">Para negocios</a>
     </nav>
 <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
@@ -42,6 +60,7 @@
   <a href="#inicio">🏠 Inicio</a>
   <a href="#grupos">👥 Grupos</a>
   <a href="#explorar">🔎 Explorar</a>
+  <a href="#valencia">📍 Empezar en Valencia</a>
   <a href="#negocios">🏪 Para negocios</a>
   <a href="#publicar">📢 Publicar</a>
 </div>
@@ -251,6 +270,30 @@
     </div>
   </div>
 </section>
+<section id="valencia" class="valencia-guide-section" aria-labelledby="valenciaGuideTitle">
+  <div class="container">
+    <div class="valencia-guide-head">
+      <div>
+        <span class="section-kicker">PRIMERA CIUDAD ACTIVA</span>
+        <h2 id="valenciaGuideTitle">Empezar en Valencia,<br>con menos vueltas.</h2>
+      </div>
+      <p>Un punto de partida para argentinos que recién llegan o están organizando su vida en la ciudad. Sin prometer soluciones mágicas: recursos, comunidad y criterio.</p>
+    </div>
+    <div class="valencia-guide-grid">
+      <article><span>01</span><div><small>VIVIENDA</small><h3>Buscá y verificá antes de reservar</h3><p>Revisá publicaciones y evitá transferencias sin confirmar identidad, condiciones y existencia del alojamiento.</p><button type="button" onclick="goToListings('vivienda')">Ver vivienda →</button></div></article>
+      <article><span>02</span><div><small>TRABAJO</small><h3>Combiná anuncios y comunidad</h3><p>Explorá oportunidades y usá los grupos para ampliar la búsqueda sin depender de una sola fuente.</p><button type="button" onclick="goToListings('trabajo')">Ver trabajo →</button></div></article>
+      <article><span>03</span><div><small>COMUNIDAD</small><h3>Encontrá gente con intereses parecidos</h3><p>Sumate a grupos activos de Valencia por temática, desde vivienda hasta deporte y juntadas.</p><button type="button" onclick="goToGroups()">Ver grupos →</button></div></article>
+    </div>
+    <div class="valencia-faq">
+      <div><span class="section-kicker">PREGUNTAS CLARAS</span><h3>Antes de empezar</h3></div>
+      <div class="valencia-faq-list">
+        <details><summary>¿La comunidad está activa en toda España?</summary><p>Valencia es la primera ciudad activa. Madrid, Barcelona, Málaga, Alicante y otras ciudades se sumarán cuando haya contenido y comunidad real.</p></details>
+        <details><summary>¿Publicar un anuncio es gratis?</summary><p>Sí. Las publicaciones comunitarias son gratuitas y pasan por revisión antes de aparecer.</p></details>
+        <details><summary>¿Cada oferta está verificada?</summary><p>Moderamos el contenido, pero no garantizamos ofertas ni intermediamos acuerdos o pagos. Siempre verificá por tu cuenta antes de avanzar.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
   <section id="negocios" class="business-section">
   <div class="container">
     <div class="section-title">
@@ -414,16 +457,21 @@
       <label>Contacto
         <input id="contact" required placeholder="@instagram, WhatsApp o email">
       </label>
-<label>Fotos (máximo 3)
+<label class="image-upload-label">Fotos (máximo 3)
   <input
     id="images"
     type="file"
     accept="image/jpeg,image/png,image/webp"
     multiple
   >
-  <small>Podés subir hasta 3 imágenes de máximo 1 MB cada una.</small>
+  <span class="image-upload-copy"><strong>Elegir imágenes</strong><small>JPG, PNG o WEBP. Las optimizamos antes de subirlas.</small></span>
 </label>
-      <button type="submit" class="btn btn-blue full">Publicar anuncio</button>
+      <div id="imagePreview" class="image-preview" aria-live="polite"></div>
+      <label class="publish-consent">
+        <input id="publishConsent" type="checkbox" required>
+        <span>Entiendo que los datos de contacto incluidos serán públicos y acepto las <a href="normas.html" target="_blank">normas de publicación y privacidad</a>.</span>
+      </label>
+      <button id="publishSubmit" type="submit" class="btn btn-blue full">Enviar para revisión</button>
       <div id="formStatus" class="status"></div>
     </form>
   </div>
@@ -463,11 +511,13 @@
       <a href="#explorar">Anuncios</a>
       <a href="#grupos">Grupos</a>
       <a href="#cityQuiz">Test de ciudad</a>
+      <a href="#valencia">Empezar en Valencia</a>
     </div>
     <div class="footer-nav">
       <strong>PARTICIPAR</strong>
       <a href="#publicar">Publicar gratis</a>
       <a href="#negocios">Para negocios</a>
+      <a href="normas.html">Normas y privacidad</a>
       <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">Contacto</a>
     </div>
   </div>
@@ -545,6 +595,6 @@
     <div id="reportStatus" class="status"></div>
   </div>
 </div>
-<script src="app.js?v=23"></script>
+<script src="app.js?v=24"></script>
 </body>
 </html>
