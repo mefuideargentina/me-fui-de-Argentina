@@ -3,15 +3,6 @@ const SUPABASE_KEY = "sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const listings = [
-  {category:"vivienda",title:"Habitación en Malasaña",city:"Madrid",location:"Madrid · Centro",price:"450 €/mes",description:"Habitación luminosa en piso compartido. Gastos incluidos.",age:"Hace 1 h"},
-  {category:"trabajo",title:"Buscamos camarero/a",city:"Barcelona",location:"Barcelona · Eixample",price:"Media jornada",description:"Para bar argentino. Buena onda y experiencia.",age:"Hace 2 h"},
-  {category:"eventos",title:"Asado argentino en la playa",city:"Valencia",location:"Valencia",price:"Sábado 15:00",description:"Este sábado a las 15:00 hs. Traé tu reposera.",age:"Hace 3 h"},
-  {category:"compraventa",title:"Vendo bicicleta urbana",city:"Sevilla",location:"Sevilla",price:"120 €",description:"Excelente estado, muy poco uso.",age:"Hace 5 h"},
-  {category:"vivienda",title:"Busco habitación",city:"Málaga",location:"Málaga",price:"Hasta 550 €",description:"Trabajo estable. Busco zona bien conectada.",age:"Hace 1 día"},
-  {category:"trabajo",title:"Administrativo/a junior",city:"Alicante",location:"Alicante",price:"Jornada completa",description:"Excel y tareas administrativas generales.",age:"Hace 1 día"}
-];
-
 let currentFilter = "todos";
 let currentCity = "todas";
 
@@ -25,6 +16,35 @@ const labels = {
 function safe(s=""){
   return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
+
+function parseListingImages(value) {
+  if (!value) return [];
+  try {
+    const images = typeof value === "string" ? JSON.parse(value) : value;
+    return Array.isArray(images) ? images.filter(image => typeof image === "string") : [];
+  } catch (error) {
+    console.warn("Una publicación tiene imágenes con formato no válido.", error);
+    return [];
+  }
+}
+
+function formatListingAge(createdAt) {
+  if (!createdAt) return "Publicado recientemente";
+  const date = new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return "Publicado recientemente";
+  const elapsedHours = Math.max(0, Math.floor((Date.now() - date.getTime()) / 3600000));
+  if (elapsedHours < 1) return "Hace menos de 1 h";
+  if (elapsedHours < 24) return `Hace ${elapsedHours} h`;
+  const days = Math.floor(elapsedHours / 24);
+  return days === 1 ? "Hace 1 día" : `Hace ${days} días`;
+}
+
+const categoryIcons = {
+  vivienda: "⌂",
+  trabajo: "▣",
+  eventos: "◎",
+  compraventa: "◇"
+};
 
 let supabaseListings = [];
 
@@ -43,6 +63,7 @@ async function loadApprovedListings(){
     }
 
    supabaseListings = data.map(x => ({
+    id: String(x.id),
     category: x.categoria,
     title: x.titulo,
     city: x.ciudad,
@@ -50,8 +71,9 @@ async function loadApprovedListings(){
     price: x.precio,
     description: x.descripcion,
     contact: x.contacto,
-    images: x.imagen_url ? JSON.parse(x.imagen_url) : [],
-    age: "Publicado recientemente",
+    images: parseListingImages(x.imagen_url),
+    age: formatListingAge(x.created_at),
+    createdAt: x.created_at,
     featured: x.destacado === true && x.destacado_hasta && new Date(x.destacado_hasta) > new Date(),
     featuredUntil: x.destacado_hasta
 }));
@@ -112,15 +134,16 @@ function render(){
 </div>
     ${x.images && x.images.length ? `
   <div class="listing-images">
-    ${x.images.map(img => `
+    ${x.images.slice(0, 3).map((img, imageIndex) => `
       <img
   src="${safe(img)}"
   alt="${safe(x.title)}"
-  onclick="openImage('${safe(img)}')"
+  loading="lazy"
+  onclick="openListingDetail('${safe(x.id)}', ${imageIndex})"
 >
     `).join("")}
   </div>
-` : ""}
+` : `<button class="listing-placeholder listing-placeholder-${safe(x.category)}" onclick="openListingDetail('${safe(x.id)}')" aria-label="Ver ${safe(x.title)}"><span>${categoryIcons[x.category] || "○"}</span><small>PUBLICACIÓN SIN FOTO</small></button>`}
       <h3>${safe(x.title)}</h3>
       <p>${safe(x.description)}</p>
       <div class="bottom">
@@ -130,11 +153,15 @@ function render(){
       <div class="contacto">
   ${renderContact(x.contact)}
 </div>
-<button class="report-button" onclick="reportListing('${safe(x.title)}')">
-  ⚠️ Reportar publicación
-</button>
+<div class="listing-actions">
+  <button class="listing-detail-button" onclick="openListingDetail('${safe(x.id)}')">Ver publicación <span>→</span></button>
+  <button class="listing-share-button" onclick="shareListing('${safe(x.id)}')" aria-label="Compartir ${safe(x.title)}">Compartir</button>
+  <button class="report-button" onclick="reportListingById('${safe(x.id)}')">Reportar</button>
+</div>
     </article>
   `).join("");
+
+  openListingFromUrl();
 }
 
 function resetListingFilters(){
@@ -164,32 +191,102 @@ document.getElementById("citySelect").addEventListener("change",e=>{
   render();
 });
 
-document.getElementById("publishForm").addEventListener("submit", async e => {
+const publishForm = document.getElementById("publishForm");
+const imageInput = document.getElementById("images");
+const imagePreview = document.getElementById("imagePreview");
+const publishSubmit = document.getElementById("publishSubmit");
+const formStatus = document.getElementById("formStatus");
+let selectedPublishImages = [];
+let previewObjectUrls = [];
+
+function clearPreviewObjectUrls() {
+  previewObjectUrls.forEach(url => URL.revokeObjectURL(url));
+  previewObjectUrls = [];
+}
+
+function renderImagePreview() {
+  if (!imagePreview) return;
+  clearPreviewObjectUrls();
+  if (!selectedPublishImages.length) {
+    imagePreview.innerHTML = "";
+    return;
+  }
+  imagePreview.innerHTML = selectedPublishImages.map((file, index) => {
+    const url = URL.createObjectURL(file);
+    previewObjectUrls.push(url);
+    return `<figure><img src="${url}" alt="Vista previa ${index + 1}"><button type="button" data-remove-image="${index}" aria-label="Quitar imagen ${index + 1}">×</button><figcaption>${index === 0 ? "Portada" : `Foto ${index + 1}`}</figcaption></figure>`;
+  }).join("");
+  imagePreview.querySelectorAll("[data-remove-image]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedPublishImages.splice(Number(button.dataset.removeImage), 1);
+      renderImagePreview();
+    });
+  });
+}
+
+imageInput?.addEventListener("change", event => {
+  const files = Array.from(event.target.files || []);
+  const validTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+  if (files.length > 3) {
+    formStatus.textContent = "Podés seleccionar como máximo 3 fotos.";
+  }
+  const validFiles = files.filter(file => {
+    if (!validTypes.has(file.type)) return false;
+    return file.size <= 8 * 1024 * 1024;
+  }).slice(0, 3);
+  if (validFiles.length !== Math.min(files.length, 3)) {
+    formStatus.textContent = "Alguna imagen no era compatible o superaba los 8 MB.";
+  } else if (files.length <= 3) {
+    formStatus.textContent = "";
+  }
+  selectedPublishImages = validFiles;
+  renderImagePreview();
+  event.target.value = "";
+});
+
+async function optimizeImage(file) {
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    image.src = objectUrl;
+    await image.decode();
+    const maxSide = 1600;
+    const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    canvas.getContext("2d", { alpha: false }).drawImage(image, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/webp", .82));
+    if (!blob) return file;
+    return new File([blob], `${file.name.replace(/\.[^.]+$/, "")}.webp`, { type: "image/webp" });
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
+publishForm?.addEventListener("submit", async e => {
   e.preventDefault();
 
   const ciudad = document.getElementById("location").value.trim();
+  const imageUrls = [];
+  publishSubmit.disabled = true;
+  publishSubmit.textContent = "Preparando publicación…";
+  formStatus.textContent = selectedPublishImages.length ? "Optimizando imágenes…" : "Enviando publicación…";
 
-  const files = Array.from(document.getElementById("images").files);
-
-if (files.length > 3) {
-  document.getElementById("formStatus").textContent =
-    "❌ Podés subir como máximo 3 fotos.";
-  return;
-}
-
-const imageUrls = [];
-
-for (const file of files) {
-
-  if (file.size > 1024 * 1024) {
-    document.getElementById("formStatus").textContent =
-      "❌ Cada foto debe pesar menos de 1 MB.";
+for (let index = 0; index < selectedPublishImages.length; index += 1) {
+  let file;
+  try {
+    file = await optimizeImage(selectedPublishImages[index]);
+  } catch (error) {
+    console.error(error);
+    formStatus.textContent = "No pudimos procesar una de las imágenes. Probá con otra foto.";
+    publishSubmit.disabled = false;
+    publishSubmit.textContent = "Enviar para revisión";
     return;
   }
-
-  const extension = file.name.split(".").pop();
-  const fileName =
-    `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+  formStatus.textContent = `Subiendo imagen ${index + 1} de ${selectedPublishImages.length}…`;
+  const uniqueId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  const fileName = `${Date.now()}-${uniqueId}.${file.type === "image/webp" ? "webp" : file.name.split(".").pop()}`;
 
   const { error: uploadError } = await supabaseClient.storage
     .from("anuncios")
@@ -197,8 +294,9 @@ for (const file of files) {
 
   if (uploadError) {
     console.error(uploadError);
-    document.getElementById("formStatus").textContent =
-      "❌ No se pudieron subir las fotos.";
+    formStatus.textContent = "No se pudieron subir las fotos. Probá nuevamente.";
+    publishSubmit.disabled = false;
+    publishSubmit.textContent = "Enviar para revisión";
     return;
   }
 
@@ -220,7 +318,7 @@ const anuncio = {
   estado: "pendiente"
 };
 
-  document.getElementById("formStatus").textContent = "Publicando...";
+  formStatus.textContent = "Guardando publicación…";
 
   const { error } = await supabaseClient
     .from("anuncios")
@@ -228,15 +326,18 @@ const anuncio = {
 
   if (error) {
     console.error(error);
-    document.getElementById("formStatus").textContent =
-      "❌ No se pudo publicar. Probá de nuevo.";
+    formStatus.textContent = "No se pudo enviar. Probá nuevamente.";
+    publishSubmit.disabled = false;
+    publishSubmit.textContent = "Enviar para revisión";
     return;
   }
 
   e.target.reset();
-
-  document.getElementById("formStatus").textContent =
-    "✅ Anuncio enviado. Quedó pendiente de aprobación.";
+  selectedPublishImages = [];
+  renderImagePreview();
+  publishSubmit.disabled = false;
+  publishSubmit.textContent = "Enviar para revisión";
+  formStatus.innerHTML = "<strong>Publicación recibida.</strong><br>Quedó pendiente de revisión antes de aparecer en la web.";
 });
 
 
@@ -398,6 +499,142 @@ function renderContact(contact){
   }
 
   return `📩 Contacto: ${safe(c)}`;
+}
+
+let openedListingId = null;
+
+function findListing(id) {
+  return supabaseListings.find(listing => String(listing.id) === String(id));
+}
+
+function reportListingById(id) {
+  const listing = findListing(id);
+  if (listing) reportListing(listing.title);
+}
+
+function listingShareUrl(id) {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.searchParams.set("anuncio", id);
+  url.hash = "anuncios";
+  return url.toString();
+}
+
+function setDetailImage(index) {
+  const listing = findListing(openedListingId);
+  const mainImage = document.getElementById("listingDetailImage");
+  if (!listing || !mainImage || !listing.images[index]) return;
+  mainImage.src = listing.images[index];
+  mainImage.alt = `${listing.title} · imagen ${index + 1}`;
+  document.querySelectorAll(".listing-detail-thumb").forEach((button, buttonIndex) => {
+    button.classList.toggle("active", buttonIndex === index);
+  });
+}
+
+function openListingDetail(id, initialImage = 0) {
+  const listing = findListing(id);
+  if (!listing) return;
+
+  closeListingDetail(false);
+  openedListingId = String(id);
+  const modal = document.createElement("div");
+  modal.id = "listingDetailModal";
+  modal.className = "listing-detail-modal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-labelledby", "listingDetailTitle");
+
+  const gallery = listing.images.length
+    ? `<div class="listing-detail-gallery">
+        <div class="listing-detail-main"><img id="listingDetailImage" src="${safe(listing.images[initialImage] || listing.images[0])}" alt="${safe(listing.title)}"></div>
+        ${listing.images.length > 1 ? `<div class="listing-detail-thumbs">${listing.images.map((image, index) => `<button type="button" class="listing-detail-thumb ${index === initialImage ? "active" : ""}" data-detail-image="${index}" aria-label="Ver imagen ${index + 1}"><img src="${safe(image)}" alt=""></button>`).join("")}</div>` : ""}
+      </div>`
+    : `<div class="listing-detail-placeholder listing-placeholder-${safe(listing.category)}"><span>${categoryIcons[listing.category] || "○"}</span><small>PUBLICACIÓN SIN FOTO</small></div>`;
+
+  modal.innerHTML = `
+    <button class="listing-detail-backdrop" type="button" aria-label="Cerrar publicación"></button>
+    <div class="listing-detail-card">
+      <button class="listing-detail-close" type="button" aria-label="Cerrar publicación">×</button>
+      ${gallery}
+      <div class="listing-detail-content">
+        <div class="listing-detail-meta">
+          <div>${listing.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}<span class="badge">${labels[listing.category] || "PUBLICACIÓN"}</span></div>
+          <span>${safe(listing.age)}</span>
+        </div>
+        <h2 id="listingDetailTitle">${safe(listing.title)}</h2>
+        <div class="listing-detail-facts"><span>📍 ${safe(listing.location)}</span><strong>${renderPrice(listing.price)}</strong></div>
+        <p>${safe(listing.description)}</p>
+        <div class="listing-detail-contact">${renderContact(listing.contact)}</div>
+        <div class="listing-detail-safety"><strong>Antes de acordar</strong><span>Verificá identidad, condiciones y existencia. Me Fui de Argentina no recibe ni intermedia pagos.</span></div>
+        <div class="listing-detail-actions">
+          <button type="button" class="btn btn-blue" id="shareListingDetail">Compartir publicación</button>
+          <button type="button" class="listing-detail-report" id="reportListingDetail">Reportar</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.body.appendChild(modal);
+  document.body.classList.add("modal-open");
+  modal.querySelector(".listing-detail-backdrop").addEventListener("click", closeListingDetail);
+  modal.querySelector(".listing-detail-close").addEventListener("click", closeListingDetail);
+  modal.querySelectorAll("[data-detail-image]").forEach(button => {
+    button.addEventListener("click", () => setDetailImage(Number(button.dataset.detailImage)));
+  });
+  modal.querySelector("#shareListingDetail").addEventListener("click", () => shareListing(id));
+  modal.querySelector("#reportListingDetail").addEventListener("click", () => {
+    closeListingDetail();
+    reportListing(listing.title);
+  });
+
+  const url = new URL(window.location.href);
+  url.searchParams.set("anuncio", id);
+  history.replaceState({}, "", `${url.pathname}${url.search}#anuncios`);
+  modal.querySelector(".listing-detail-close").focus();
+}
+
+function closeListingDetail(updateUrl = true) {
+  document.getElementById("listingDetailModal")?.remove();
+  document.body.classList.remove("modal-open");
+  openedListingId = null;
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("anuncio");
+    history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+  }
+}
+
+async function shareListing(id) {
+  const listing = findListing(id);
+  if (!listing) return;
+  const shareData = {
+    title: listing.title,
+    text: `${listing.title} · ${listing.location}`,
+    url: listingShareUrl(id)
+  };
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+      return;
+    }
+    await navigator.clipboard.writeText(shareData.url);
+    showGlobalToast("Enlace copiado");
+  } catch (error) {
+    if (error?.name !== "AbortError") showGlobalToast("No pudimos compartir el enlace");
+  }
+}
+
+function showGlobalToast(message) {
+  document.querySelector(".global-toast")?.remove();
+  const toast = document.createElement("div");
+  toast.className = "global-toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  window.setTimeout(() => toast.remove(), 2400);
+}
+
+function openListingFromUrl() {
+  const id = new URL(window.location.href).searchParams.get("anuncio");
+  if (id && id !== openedListingId && findListing(id)) openListingDetail(id);
 }
 
 function openImage(url){
@@ -955,7 +1192,7 @@ window.addEventListener("scroll", updateScrollUI, { passive: true });
 updateScrollUI();
 
 const revealTargets = document.querySelectorAll(
-  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .business-card, .service-card, .safety-heading, .safety-list, .publish-info, .publish-card"
+  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .valencia-guide-head, .valencia-guide-grid, .valencia-faq, .business-card, .service-card, .safety-heading, .safety-list, .publish-info, .publish-card"
 );
 
 if ("IntersectionObserver" in window) {
@@ -981,6 +1218,7 @@ document.addEventListener("keydown", event => {
   chatbotPanel?.classList.remove("open");
   chatbotButton?.setAttribute("aria-expanded", "false");
   reportModal?.classList.remove("open");
+  closeListingDetail();
 });
 let currentReportedListing = "";
 

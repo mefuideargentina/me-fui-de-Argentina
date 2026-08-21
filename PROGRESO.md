@@ -38,6 +38,17 @@
 - Nuevo asistente conversacional beta con campo de texto, detección de necesidades y accesos contextuales a vivienda, trabajo, grupos, publicación, ciudades, seguridad y servicios.
 - El asistente funciona sin exponer claves privadas ni atribuirse capacidades de IA generativa que todavía no tiene.
 
+## Producto, SEO y confianza v24
+
+- Las publicaciones tienen ficha completa, galería, enlace individual para compartir y visual propia cuando no hay fotografía.
+- El formulario permite previsualizar y quitar imágenes, las optimiza antes de subirlas y comunica cada estado del envío.
+- Se informa antes de publicar que los datos de contacto serán públicos y se requiere aceptar las normas.
+- Nueva guía útil y preguntas frecuentes sobre la primera comunidad activa en Valencia, con datos estructurados para buscadores.
+- Añadidos favicon, manifiesto, robots.txt y sitemap.xml.
+- Nueva página de normas y privacidad básica, señalando expresamente los datos legales pendientes y las fuentes oficiales consultadas.
+- El panel de administración escapa el contenido enviado por usuarios, muestra estadísticas, imágenes, reportes y permite cerrar sesión.
+- No se añade analítica publicitaria ni se afirma cumplimiento legal completo mientras falten identidad pública del responsable, plazos y revisión profesional.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/

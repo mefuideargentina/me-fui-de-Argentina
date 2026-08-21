@@ -4,254 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administración | Me Fui de Argentina</title>
-
+  <meta name="robots" content="noindex,nofollow">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      margin: 0;
-      padding: 30px;
-    }
-
-    .box {
-      max-width: 420px;
-      margin: 80px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.08);
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      background: #2563eb;
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    #mensaje {
-      margin-top: 15px;
-    }
+    :root{--ink:#10213f;--blue:#1672e8;--paper:#f3f6f9;--muted:#66758a;--line:#dce5ec;--green:#12805b;--red:#c43d3d;--yellow:#d79514}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font-family:Inter,Arial,sans-serif}.login-shell{min-height:100vh;padding:24px;display:grid;place-items:center;background:radial-gradient(circle at 15% 15%,#dff2ff,transparent 34%),linear-gradient(145deg,#f8fbfd,#fff8e8)}.login-card{width:min(430px,100%);padding:34px;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 25px 70px rgba(16,33,63,.13)}.brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}.brand-mark{width:44px;height:44px;display:grid;place-items:center;color:#fff;background:var(--ink);border-radius:14px;font-weight:900}.brand small,.login-card>p{color:var(--muted)}h1{margin:0;font-size:25px}label{display:grid;gap:6px;margin:14px 0;color:#41536a;font-size:11px;font-weight:800}input{width:100%;padding:13px;border:1px solid #cfdce6;border-radius:11px;font:inherit}.btn{min-height:42px;padding:10px 14px;color:#fff;background:var(--blue);border:0;border-radius:11px;font-weight:800;cursor:pointer}.btn.full{width:100%}.message{min-height:19px;margin-top:14px;color:var(--muted);font-size:11px;font-weight:700}.dashboard{display:none;min-height:100vh}.dashboard.open{display:block}.dashboard-top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}.dashboard-top>div{width:min(1120px,calc(100% - 32px));height:72px;margin:auto;display:flex;align-items:center;justify-content:space-between}.dashboard-top .brand{margin:0}.logout{padding:9px 12px;color:var(--muted);background:#f2f5f7;border:1px solid var(--line);border-radius:10px;font-weight:800}.dashboard-main{width:min(1120px,calc(100% - 32px));margin:34px auto 80px}.dashboard-title{display:flex;align-items:end;justify-content:space-between;gap:20px}.dashboard-title h2{margin:0;font-size:30px}.dashboard-title p{margin:7px 0 0;color:var(--muted)}.refresh{padding:10px 13px;color:var(--blue);background:#eaf5ff;border:0;border-radius:10px;font-weight:800}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}.stat{padding:19px;background:#fff;border:1px solid var(--line);border-radius:16px}.stat small{color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.09em}.stat strong{display:block;margin-top:7px;font-size:27px}.admin-section{margin-top:30px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.section-head h3{margin:0;font-size:18px}.count{padding:5px 8px;color:var(--blue);background:#eaf5ff;border-radius:999px;font-size:9px;font-weight:900}.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.admin-card{padding:20px;background:#fff;border:1px solid var(--line);border-radius:17px}.admin-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:13px}.admin-card h4{margin:0;font-size:16px}.pill{padding:5px 7px;color:#75520a;background:#fff1c5;border-radius:999px;font-size:8px;font-weight:900}.admin-card p{margin:11px 0;color:#53657a;font-size:12px;line-height:1.55}.admin-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:11px;background:#f6f8fa;border-radius:10px;color:#607086;font-size:10px}.admin-contact{grid-column:1/-1;overflow-wrap:anywhere}.admin-images{display:flex;gap:6px;margin-top:10px}.admin-images img{width:64px;height:52px;object-fit:cover;border-radius:8px}.admin-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.admin-actions button{padding:9px 11px;color:#fff;border:0;border-radius:9px;font-size:9px;font-weight:900}.approve{background:var(--green)}.reject{background:var(--red)}.feature{background:var(--yellow)}.review{background:var(--blue)}.empty{grid-column:1/-1;padding:30px;color:var(--muted);text-align:center;background:#fff;border:1px dashed #c7d4de;border-radius:15px}.error{color:#9d3535;background:#fff0f0;border-style:solid}.report-card{border-left:4px solid #e0a52d}.report-card .admin-meta{grid-template-columns:1fr}.hidden{display:none!important}@media(max-width:760px){.admin-grid,.stats{grid-template-columns:1fr}.dashboard-title{align-items:flex-start;flex-direction:column}.admin-meta{grid-template-columns:1fr}.admin-contact{grid-column:auto}.login-card{padding:25px}.dashboard-top .brand small{display:none}}
   </style>
 </head>
-
 <body>
-
-  <div class="box">
-    <h1>🔐 Administración</h1>
-    <p>Me Fui de Argentina</p>
-
-    <input
-      id="email"
-      type="email"
-      placeholder="Email"
-    >
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Contraseña"
-    >
-
-    <button onclick="login()">
-      Iniciar sesión
-    </button>
-
-    <div id="mensaje"></div>
-
-<div id="panel" style="display:none; margin-top:30px;"> 
-  <h2>Anuncios pendientes</h2> 
-  <div id="pendientes"></div>
-
-  <h2 style="margin-top:40px;">Anuncios aprobados</h2>
-  <div id="aprobados"></div>
-</div>
-    
+  <main id="loginShell" class="login-shell">
+    <section class="login-card">
+      <div class="brand"><span class="brand-mark">MF</span><div><strong>Me Fui de Argentina</strong><small>Panel de administración</small></div></div>
+      <h1>Ingresar</h1><p>Revisá anuncios y reportes de la comunidad.</p>
+      <form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button class="btn full" type="submit">Iniciar sesión</button></form>
+      <div id="message" class="message" aria-live="polite"></div>
+    </section>
+  </main>
+  <div id="dashboard" class="dashboard">
+    <header class="dashboard-top"><div><div class="brand"><span class="brand-mark">MF</span><div><strong>Administración</strong><small>Me Fui de Argentina</small></div></div><button id="logoutButton" class="logout">Cerrar sesión</button></div></header>
+    <main class="dashboard-main">
+      <div class="dashboard-title"><div><h2>Panel de comunidad</h2><p>Moderación de publicaciones y seguimiento de reportes.</p></div><button id="refreshButton" class="refresh">Actualizar datos</button></div>
+      <div class="stats"><div class="stat"><small>PENDIENTES</small><strong id="pendingStat">–</strong></div><div class="stat"><small>PUBLICADOS</small><strong id="approvedStat">–</strong></div><div class="stat"><small>REPORTES ABIERTOS</small><strong id="reportStat">–</strong></div></div>
+      <section class="admin-section"><div class="section-head"><h3>Anuncios pendientes</h3><span id="pendingCount" class="count">0</span></div><div id="pendingList" class="admin-grid"><div class="empty">Cargando…</div></div></section>
+      <section class="admin-section"><div class="section-head"><h3>Reportes</h3><span id="reportCount" class="count">0</span></div><div id="reportList" class="admin-grid"><div class="empty">Cargando…</div></div></section>
+      <section class="admin-section"><div class="section-head"><h3>Anuncios aprobados</h3><span id="approvedCount" class="count">0</span></div><div id="approvedList" class="admin-grid"><div class="empty">Cargando…</div></div></section>
+    </main>
   </div>
-
   <script>
-    const SUPABASE_URL = "https://xagsdvh ibdgfmotiomoq.supabase.co".replace(" ", "");
-    const SUPABASE_KEY = "sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";
-
-    const supabaseClient =
-      window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function login() {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const mensaje = document.getElementById("mensaje");
-
-      mensaje.textContent = "Ingresando...";
-
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
-
-      if (error) {
-        mensaje.textContent = "❌ Email o contraseña incorrectos.";
-        return;
-      }
-
-      mensaje.textContent = "✅ Sesión iniciada correctamente.";
-document.getElementById("panel").style.display = "block";
-cargarPendientes();
-      cargarAprobados();
-    }
-    async function cargarPendientes() {
-  const contenedor = document.getElementById("pendientes");
-  contenedor.innerHTML = "Cargando...";
-
-  const { data, error } = await supabaseClient
-    .from("anuncios")
-    .select("*")
-    .eq("estado", "pendiente")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    contenedor.innerHTML = "❌ No se pudieron cargar los anuncios.";
-    console.error(error);
-    return;
-  }
-
-  if (!data.length) {
-    contenedor.innerHTML = "<p>No hay anuncios pendientes 🎉</p>";
-    return;
-  }
-
-  contenedor.innerHTML = data.map(a => `
-    <div style="
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:16px;
-      margin-bottom:14px;
-      background:#fff;
-    ">
-      <strong>${a.titulo}</strong>
-      <p>${a.descripcion || ""}</p>
-      <p><b>Ciudad:</b> ${a.ciudad || ""}</p>
-      <p><b>Precio:</b> ${a.precio || "Consultar"}</p>
-      <p><b>Contacto:</b> ${a.contacto || ""}</p>
-
-      <button onclick="cambiarEstado('${a.id}','aprobado')">
-        ✅ Aprobar
-      </button>
-<button
-  onclick="destacarAnuncio('${a.id}')"
-  style="background:#f59e0b;"
->
-  ⭐ Destacar 7 días
-</button>
-      <button
-        onclick="cambiarEstado('${a.id}','rechazado')"
-        style="background:#dc2626;"
-      >
-        ❌ Rechazar
-      </button>
-    </div>
-  `).join("");
-}
-
-async function cambiarEstado(id, estado) {
-  const { error } = await supabaseClient
-    .from("anuncios")
-    .update({ estado })
-    .eq("id", id);
-
-  if (error) {
-    alert("❌ No se pudo actualizar el anuncio.");
-    console.error(error);
-    return;
-  }
-
-  cargarPendientes();
-}
-   async function destacarAnuncio(id) {
-  const hasta = new Date();
-  hasta.setDate(hasta.getDate() + 7);
-
-  const { error } = await supabaseClient
-    .from("anuncios")
-    .update({
-      destacado: true,
-      destacado_hasta: hasta.toISOString()
-    })
-    .eq("id", id);
-
-  if (error) {
-    alert("❌ No se pudo destacar el anuncio.");
-    console.error(error);
-    return;
-  }
-
-  alert("⭐ Anuncio destacado por 7 días.");
-  cargarAprobados();  
-} 
-    async function cargarAprobados() {
-  const contenedor = document.getElementById("aprobados");
-  contenedor.innerHTML = "Cargando...";
-
-  const { data, error } = await supabaseClient
-    .from("anuncios")
-    .select("*")
-    .eq("estado", "aprobado")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    contenedor.innerHTML = "❌ No se pudieron cargar los anuncios aprobados.";
-    console.error(error);
-    return;
-  }
-
-  if (!data.length) {
-    contenedor.innerHTML = "<p>No hay anuncios aprobados.</p>";
-    return;
-  }
-
-  contenedor.innerHTML = data.map(a => `
-    <div style="
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:16px;
-      margin-bottom:14px;
-      background:#fff;
-    ">
-      <strong>${a.titulo}</strong>
-      <p>${a.descripcion || ""}</p>
-      <p><b>Ciudad:</b> ${a.ciudad || ""}</p>
-      <p><b>Precio:</b> ${a.precio || "Consultar"}</p>
-      <p><b>Contacto:</b> ${a.contacto || ""}</p>
-
-      <button
-        onclick="destacarAnuncio('${a.id}')"
-        style="background:#f59e0b;"
-      >
-        ⭐ Destacar 7 días
-      </button>
-    </div>
-  `).join("");
-}
+    const SUPABASE_URL="https://xagsdvhibdgfmotiomoq.supabase.co";const SUPABASE_KEY="sb_publishable_dipmh2_QaDQ-fZ69o_C3hQ_KaarUTlv";const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const safe=(value="")=>String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
+    function images(value){try{const parsed=value?JSON.parse(value):[];return Array.isArray(parsed)?parsed:[]}catch{return[]}}
+    function card(ad,pending=false){return `<article class="admin-card"><div class="admin-card-head"><h4>${safe(ad.titulo||"Sin título")}</h4><span class="pill">${safe(ad.categoria||"anuncio")}</span></div><p>${safe(ad.descripcion||"Sin descripción")}</p><div class="admin-meta"><span>📍 ${safe(ad.ciudad||"Sin ciudad")}</span><span>💶 ${safe(ad.precio||"Consultar")}</span><span class="admin-contact">Contacto: ${safe(ad.contacto||"No indicado")}</span></div>${images(ad.imagen_url).length?`<div class="admin-images">${images(ad.imagen_url).slice(0,3).map(url=>`<img src="${safe(url)}" alt="">`).join("")}</div>`:""}<div class="admin-actions">${pending?`<button class="approve" onclick="changeStatus('${safe(ad.id)}','aprobado')">Aprobar</button><button class="reject" onclick="changeStatus('${safe(ad.id)}','rechazado')">Rechazar</button>`:""}<button class="feature" onclick="featureAd('${safe(ad.id)}')">Destacar 7 días</button></div></article>`}
+    function showApp(){document.getElementById("loginShell").classList.add("hidden");document.getElementById("dashboard").classList.add("open");loadAll()}
+    document.getElementById("loginForm").addEventListener("submit",async event=>{event.preventDefault();const message=document.getElementById("message");message.textContent="Ingresando…";const{error}=await client.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("password").value});if(error){message.textContent="Email o contraseña incorrectos.";return}showApp()});
+    document.getElementById("logoutButton").addEventListener("click",async()=>{await client.auth.signOut();location.reload()});document.getElementById("refreshButton").addEventListener("click",loadAll);
+    async function loadAds(status,listId,countId,statId){const list=document.getElementById(listId);list.innerHTML='<div class="empty">Cargando…</div>';const{data,error}=await client.from("anuncios").select("*").eq("estado",status).order("created_at",{ascending:false});if(error){list.innerHTML='<div class="empty error">No se pudieron cargar los anuncios.</div>';return}document.getElementById(countId).textContent=data.length;document.getElementById(statId).textContent=data.length;list.innerHTML=data.length?data.map(ad=>card(ad,status==="pendiente")).join(""):'<div class="empty">No hay elementos en esta sección.</div>'}
+    async function loadReports(){const list=document.getElementById("reportList");list.innerHTML='<div class="empty">Cargando…</div>';const{data,error}=await client.from("reportes").select("*").eq("estado","pendiente").order("created_at",{ascending:false});if(error){list.innerHTML='<div class="empty error">No se pudieron leer los reportes. Revisá que exista una política SELECT para usuarios administradores.</div>';document.getElementById("reportStat").textContent="!";return}document.getElementById("reportCount").textContent=data.length;document.getElementById("reportStat").textContent=data.length;list.innerHTML=data.length?data.map(report=>`<article class="admin-card report-card"><div class="admin-card-head"><h4>${safe(report.anuncio_titulo||"Publicación reportada")}</h4><span class="pill">${safe(report.motivo||"Reporte")}</span></div><p>${safe(report.comentario||"Sin comentario adicional")}</p><div class="admin-meta"><span>Estado: ${safe(report.estado||"pendiente")}</span></div><div class="admin-actions"><button class="review" onclick="reviewReport('${safe(report.id)}')">Marcar revisado</button></div></article>`).join(""):'<div class="empty">No hay reportes pendientes.</div>'}
+    async function loadAll(){await Promise.all([loadAds("pendiente","pendingList","pendingCount","pendingStat"),loadAds("aprobado","approvedList","approvedCount","approvedStat"),loadReports()])}
+    async function changeStatus(id,status){const{error}=await client.from("anuncios").update({estado:status}).eq("id",id);if(error){alert("No se pudo actualizar el anuncio.");return}loadAll()}
+    async function featureAd(id){const until=new Date();until.setDate(until.getDate()+7);const{error}=await client.from("anuncios").update({destacado:true,destacado_hasta:until.toISOString()}).eq("id",id);if(error){alert("No se pudo destacar el anuncio.");return}loadAll()}
+    async function reviewReport(id){const{error}=await client.from("reportes").update({estado:"revisado"}).eq("id",id);if(error){alert("No se pudo actualizar el reporte.");return}loadReports()}
+    client.auth.getSession().then(({data})=>{if(data.session)showApp()});
   </script>
-
 </body>
 </html>

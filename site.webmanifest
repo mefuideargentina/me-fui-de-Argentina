@@ -1,0 +1,10 @@
+{
+  "name": "Me Fui de Argentina",
+  "short_name": "Me Fui",
+  "description": "Comunidad para argentinos que viven o quieren vivir en España.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffdf8",
+  "theme_color": "#10213f",
+  "icons": [{"src":"/assets/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
