@@ -2,6 +2,15 @@
 
 Última actualización: 21 de agosto de 2026.
 
+## Dirección visual v20
+
+- Rediseño visible del sitio público con una estética editorial, mediterránea y más reconocible como marca.
+- Nuevo hero con mensaje de comunidad, ilustración propia Argentina–Valencia y tarjetas flotantes.
+- Navegación simplificada, nueva marca gráfica y llamados a la acción más claros.
+- Accesos por categoría, anuncios, grupos, test, negocios, servicios y formulario unificados bajo el mismo sistema visual.
+- Mayor contraste entre secciones para que la página tenga ritmo y no se sienta como una sucesión de tarjetas blancas.
+- Diseño responsive revisado para móvil, tablet y escritorio.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
