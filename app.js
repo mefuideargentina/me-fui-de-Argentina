@@ -37,6 +37,8 @@ async function loadApprovedListings(){
 
     if (error) {
         console.error("Error cargando anuncios:", error);
+        document.getElementById("listingGrid").innerHTML =
+          `<div class="empty"><strong>No pudimos cargar los anuncios.</strong><br><small>Probá de nuevo en unos minutos.</small></div>`;
         return;
     }
 
@@ -65,6 +67,12 @@ supabaseListings.sort((a, b) => {
 
 function getAll(){
 return supabaseListings;
+}
+
+function renderPrice(value){
+  if(!value) return "Consultar";
+  const price = String(value).trim();
+  return /^\d+(?:[.,]\d+)?$/.test(price) ? `${safe(price)} €` : safe(price);
 }
 
 function render(){
@@ -107,7 +115,7 @@ function render(){
       <p>${safe(x.description)}</p>
       <div class="bottom">
         <span>📍 ${safe(x.location)}</span>
-        <strong>${x.price ? `${safe(x.price)} €` : "Consultar"}</strong>
+        <strong>${renderPrice(x.price)}</strong>
       </div>
       <div class="contacto">
   ${renderContact(x.contact)}
@@ -215,6 +223,7 @@ render();
 
 
 let communityGroups = [];
+let communityGroupsLoaded = false;
 
 async function loadCommunityGroups() {
   const { data, error } = await supabaseClient
@@ -225,6 +234,8 @@ async function loadCommunityGroups() {
 
   if (error) {
     console.error("Error cargando grupos:", error);
+    document.getElementById("groupDirectory").innerHTML =
+      `<div class="empty">No pudimos cargar los grupos en este momento.</div>`;
     return;
   }
 
@@ -236,6 +247,8 @@ async function loadCommunityGroups() {
     url: g.enlace,
     city: g.ciudad
   }));
+
+  communityGroupsLoaded = true;
 
   renderGroups();
 }
@@ -279,6 +292,10 @@ let groupFilter = "todos";
 function renderGroups(){
   const directory = document.getElementById("groupDirectory");
   if(!directory) return;
+  if(!communityGroupsLoaded){
+    directory.innerHTML = `<div class="empty">Cargando grupos de la comunidad…</div>`;
+    return;
+  }
   const city = document.getElementById("groupCity").value;
 
   if(city === "proximamente"){
@@ -286,10 +303,14 @@ function renderGroups(){
     return;
   }
 
-  const groups = communityGroups.filter(g =>
+const groups = communityGroups.filter(g =>
   g.city === city &&
   (groupFilter === "todos" || g.category === groupFilter)
 );
+  if(!groups.length){
+    directory.innerHTML = `<div class="empty">Todavía no hay grupos para este filtro.</div>`;
+    return;
+  }
   directory.innerHTML = groups.map(g => `
     <a href="#" class="group-card" onclick="return openCommunityGroup(event,'${g.url}')">
       <span>${g.icon}</span>
@@ -365,12 +386,14 @@ const chatbotClose = document.getElementById("chatbotClose");
 if (chatbotButton && chatbotPanel) {
   chatbotButton.addEventListener("click", () => {
     chatbotPanel.classList.toggle("open");
+    chatbotButton.setAttribute("aria-expanded", chatbotPanel.classList.contains("open"));
   });
 }
 
 if (chatbotClose && chatbotPanel) {
   chatbotClose.addEventListener("click", () => {
     chatbotPanel.classList.remove("open");
+    chatbotButton?.setAttribute("aria-expanded", "false");
   });
 }
 function goToGroups() {
@@ -704,14 +727,68 @@ const mobileMenu = document.getElementById("mobileMenu");
 if (mobileMenuButton && mobileMenu) {
   mobileMenuButton.addEventListener("click", () => {
     mobileMenu.classList.toggle("open");
+    mobileMenuButton.setAttribute("aria-expanded", mobileMenu.classList.contains("open"));
   });
 
   mobileMenu.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", () => {
       mobileMenu.classList.remove("open");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
     });
   });
 }
+
+const scrollProgress = document.getElementById("scrollProgress");
+const desktopNavLinks = Array.from(document.querySelectorAll(".topbar nav a[href^='#']"));
+const observedSections = desktopNavLinks
+  .map(link => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+function updateScrollUI() {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+  if (scrollProgress) scrollProgress.style.width = `${Math.min(progress, 100)}%`;
+
+  let activeSection = observedSections[0]?.id;
+  observedSections.forEach(section => {
+    if (section.getBoundingClientRect().top <= 150) activeSection = section.id;
+  });
+  desktopNavLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${activeSection}`);
+  });
+}
+
+window.addEventListener("scroll", updateScrollUI, { passive: true });
+updateScrollUI();
+
+const revealTargets = document.querySelectorAll(
+  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .business-card, .service-card, .publish-info, .publish-card"
+);
+
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("reveal-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -35px" });
+
+  revealTargets.forEach(target => {
+    target.classList.add("reveal");
+    revealObserver.observe(target);
+  });
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  mobileMenu?.classList.remove("open");
+  mobileMenuButton?.setAttribute("aria-expanded", "false");
+  chatbotPanel?.classList.remove("open");
+  chatbotButton?.setAttribute("aria-expanded", "false");
+  reportModal?.classList.remove("open");
+});
 let currentReportedListing = "";
 
 function reportListing(title) {

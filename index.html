@@ -4,10 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Me Fui de Argentina — Comunidad de argentinos en España</title>
-  <meta name="description" content="Vivienda, trabajo, eventos, grupos de WhatsApp y compra/venta para argentinos en España.">
- <link rel="stylesheet" href="styles.css?v=20">
+  <meta name="description" content="Vivienda, trabajo, grupos, eventos y comunidad para argentinos que viven en España o están por llegar.">
+  <meta name="theme-color" content="#10213f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Me Fui de Argentina — No llegás solo">
+  <meta property="og:description" content="Todo lo que necesitás para empezar en España, acompañado por la comunidad argentina.">
+  <meta property="og:url" content="https://mefuideargentina.github.io/">
+  <meta property="og:image" content="https://mefuideargentina.github.io/assets/hero-community.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://mefuideargentina.github.io/">
+  <link rel="stylesheet" href="styles.css?v=21">
 </head>
 <body>
+<div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
 
 <header class="topbar">
   <div class="container nav">
@@ -25,7 +34,7 @@
       <a href="#grupos">Grupos</a>
       <a href="#negocios">Para negocios</a>
     </nav>
-<button id="mobileMenuButton" class="mobile-menu-button" aria-label="Abrir menú">
+<button id="mobileMenuButton" class="mobile-menu-button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
   ☰
 </button>
 
@@ -159,7 +168,11 @@
       </div>
     </div>
 
-    <div id="listingGrid" class="listing-grid"></div>
+    <div id="listingGrid" class="listing-grid" aria-live="polite">
+      <article class="listing-card skeleton-card" aria-hidden="true"><i></i><b></b><span></span><span></span></article>
+      <article class="listing-card skeleton-card" aria-hidden="true"><i></i><b></b><span></span><span></span></article>
+      <article class="listing-card skeleton-card" aria-hidden="true"><i></i><b></b><span></span><span></span></article>
+    </div>
   </div>
 </section>
 
@@ -188,7 +201,9 @@
       </div>
     </div>
 
-    <div id="groupDirectory" class="groups-grid directory"></div>
+    <div id="groupDirectory" class="groups-grid directory" aria-live="polite">
+      <div class="empty">Cargando grupos de la comunidad…</div>
+    </div>
 
     <div class="group-note">
       <strong>¿Administrás una comunidad argentina en otra ciudad?</strong>
@@ -218,6 +233,21 @@
       </div>
 
       <div id="cityQuizContent" style="display:none;"></div>
+    </div>
+  </div>
+</section>
+<section class="journey-section" aria-labelledby="journeyTitle">
+  <div class="container journey-grid">
+    <div class="journey-heading">
+      <span class="section-kicker">EMPEZÁ POR ACÁ</span>
+      <h2 id="journeyTitle">De recién llegado<br>a sentirte en casa.</h2>
+      <p>No hace falta resolver todo solo. La comunidad te acompaña en cada etapa.</p>
+      <a href="#explorar" class="journey-link">Explorar ahora <span>→</span></a>
+    </div>
+    <div class="journey-steps">
+      <article><b>01</b><span>BUSCÁ</span><h3>Encontrá lo que necesitás</h3><p>Filtrá vivienda, trabajo, eventos y publicaciones por ciudad.</p></article>
+      <article><b>02</b><span>CONECTÁ</span><h3>Hablá con gente real</h3><p>Unite a grupos y contactá directamente con la comunidad.</p></article>
+      <article><b>03</b><span>PARTICIPÁ</span><h3>También podés aportar</h3><p>Publicá gratis y ayudá a que la red siga creciendo.</p></article>
     </div>
   </div>
 </section>
@@ -394,9 +424,9 @@
 
 <footer>
   <div class="container footer">
-    <div>
-      <strong>🇦🇷 Me Fui de Argentina</strong>
-      <small>Comunidad de argentinos en España</small>
+    <div class="footer-brand">
+      <div class="footer-brand-title"><span class="brand-mark" aria-hidden="true"><b></b><i></i><b></b></span><strong>Me Fui de Argentina</strong></div>
+      <small>Una comunidad para hacer más fácil empezar de nuevo.</small>
 
       <div class="social-links">
   <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">
@@ -410,9 +440,20 @@
   </a>
 </div>
     </div>
-
-   <span>Hecho para la comunidad 🇦🇷🇪🇸</span>
+    <div class="footer-nav">
+      <strong>EXPLORAR</strong>
+      <a href="#explorar">Anuncios</a>
+      <a href="#grupos">Grupos</a>
+      <a href="#cityQuiz">Test de ciudad</a>
+    </div>
+    <div class="footer-nav">
+      <strong>PARTICIPAR</strong>
+      <a href="#publicar">Publicar gratis</a>
+      <a href="#negocios">Para negocios</a>
+      <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">Contacto</a>
+    </div>
   </div>
+  <div class="container footer-bottom"><span>Hecho para la comunidad 🇦🇷🇪🇸</span><small>© 2026 Me Fui de Argentina</small></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -423,7 +464,7 @@
       <strong>Asistente</strong>
       <small>¿En qué te podemos ayudar?</small>
     </div>
-    <button id="chatbotClose" class="chatbot-close">×</button>
+    <button id="chatbotClose" class="chatbot-close" aria-label="Cerrar asistente">×</button>
   </div>
 
  <div class="chatbot-options">
@@ -452,12 +493,17 @@
 
 </div>
 </div>
-<button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente">
+<button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente" aria-expanded="false" aria-controls="chatbotPanel">
   💬
 </button>
+<nav class="mobile-dock" aria-label="Accesos rápidos">
+  <a href="#explorar"><span>⌕</span>Explorar</a>
+  <a href="#grupos"><span>◉</span>Grupos</a>
+  <a href="#publicar" class="mobile-dock-main"><span>＋</span>Publicar</a>
+</nav>
 <div id="reportModal" class="report-modal">
   <div class="report-modal-card">
-    <button id="reportModalClose" class="report-modal-close">×</button>
+    <button id="reportModalClose" class="report-modal-close" aria-label="Cerrar reporte">×</button>
 
     <h3>⚠️ Reportar publicación</h3>
     <p id="reportListingTitle"></p>
@@ -488,6 +534,6 @@
     <div id="reportStatus" class="status"></div>
   </div>
 </div>
-<script src="app.js?v=20"></script>
+<script src="app.js?v=21"></script>
 </body>
 </html>

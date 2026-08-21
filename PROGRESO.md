@@ -11,6 +11,18 @@
 - Mayor contraste entre secciones para que la página tenga ritmo y no se sienta como una sucesión de tarjetas blancas.
 - Diseño responsive revisado para móvil, tablet y escritorio.
 
+## Pulido visual y experiencia v21
+
+- Metadatos sociales y descripción de la web preparados para compartir enlaces.
+- Nueva sección “De recién llegado a sentirte en casa” con recorrido en tres pasos.
+- Barra de progreso al recorrer la página y navegación activa según la sección visible.
+- Animaciones de entrada suaves con respeto a la preferencia de movimiento reducido.
+- Estados de carga y error visibles para anuncios y grupos.
+- Navegación inferior móvil con accesos a Explorar, Grupos y Publicar.
+- Footer ampliado con accesos útiles y una estructura más profesional.
+- Mejora de accesibilidad en menús, asistente y modal de reportes.
+- Corrección del formato de precios para evitar añadir euros a textos como “Jornada completa”.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
