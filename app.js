@@ -38,7 +38,7 @@ async function loadApprovedListings(){
     if (error) {
         console.error("Error cargando anuncios:", error);
         document.getElementById("listingGrid").innerHTML =
-          `<div class="empty"><strong>No pudimos cargar los anuncios.</strong><br><small>Probá de nuevo en unos minutos.</small></div>`;
+          `<div class="empty-state"><span>↻</span><h3>No pudimos cargar los anuncios</h3><p>Puede ser algo momentáneo. Probá otra vez.</p><div class="empty-actions"><button class="empty-primary" onclick="loadApprovedListings()">Reintentar</button></div></div>`;
         return;
     }
 
@@ -86,7 +86,17 @@ function render(){
   });
 
   if(!data.length){
-    grid.innerHTML = `<div class="empty">No hay publicaciones para este filtro todavía.</div>`;
+    const place = currentCity !== "todas" ? ` en ${safe(currentCity)}` : "";
+    grid.innerHTML = `
+      <div class="empty-state">
+        <span>⌕</span>
+        <h3>Todavía no hay publicaciones${place}</h3>
+        <p>Probá viendo todas las categorías o publicá gratis para que otra persona pueda encontrarte.</p>
+        <div class="empty-actions">
+          <button onclick="resetListingFilters()">Ver todas</button>
+          <button class="empty-primary" onclick="goToPublish()">Publicar primero</button>
+        </div>
+      </div>`;
     return;
   }
 
@@ -125,6 +135,17 @@ function render(){
 </button>
     </article>
   `).join("");
+}
+
+function resetListingFilters(){
+  currentFilter = "todos";
+  currentCity = "todas";
+  const citySelect = document.getElementById("citySelect");
+  if(citySelect) citySelect.value = "todas";
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === "todos");
+  });
+  render();
 }
 
 document.querySelectorAll("[data-filter]").forEach(btn=>{
@@ -235,7 +256,7 @@ async function loadCommunityGroups() {
   if (error) {
     console.error("Error cargando grupos:", error);
     document.getElementById("groupDirectory").innerHTML =
-      `<div class="empty">No pudimos cargar los grupos en este momento.</div>`;
+      `<div class="empty-state"><span>↻</span><h3>No pudimos cargar los grupos</h3><p>Probá nuevamente en unos minutos.</p><div class="empty-actions"><button class="empty-primary" onclick="loadCommunityGroups()">Reintentar</button></div></div>`;
     return;
   }
 
@@ -308,7 +329,13 @@ const groups = communityGroups.filter(g =>
   (groupFilter === "todos" || g.category === groupFilter)
 );
   if(!groups.length){
-    directory.innerHTML = `<div class="empty">Todavía no hay grupos para este filtro.</div>`;
+    directory.innerHTML = `
+      <div class="empty-state">
+        <span>💬</span>
+        <h3>Todavía no hay grupos para este filtro</h3>
+        <p>Podés volver a ver todos los grupos disponibles en Valencia.</p>
+        <div class="empty-actions"><button class="empty-primary" onclick="resetGroupFilters()">Ver todos</button></div>
+      </div>`;
     return;
   }
   directory.innerHTML = groups.map(g => `
@@ -321,6 +348,14 @@ const groups = communityGroups.filter(g =>
       <span class="join">UNIRME →</span>
     </a>
   `).join("");
+}
+
+function resetGroupFilters(){
+  groupFilter = "todos";
+  document.querySelectorAll(".group-filter").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.groupFilter === "todos");
+  });
+  renderGroups();
 }
 
 function openCommunityGroup(e,url){
@@ -762,7 +797,7 @@ window.addEventListener("scroll", updateScrollUI, { passive: true });
 updateScrollUI();
 
 const revealTargets = document.querySelectorAll(
-  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .business-card, .service-card, .publish-info, .publish-card"
+  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .business-card, .service-card, .safety-heading, .safety-list, .publish-info, .publish-card"
 );
 
 if ("IntersectionObserver" in window) {

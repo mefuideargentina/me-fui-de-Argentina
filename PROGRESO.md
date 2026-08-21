@@ -23,6 +23,14 @@
 - Mejora de accesibilidad en menús, asistente y modal de reportes.
 - Corrección del formato de precios para evitar añadir euros a textos como “Jornada completa”.
 
+## Posicionamiento y confianza v22
+
+- El hero presenta a Valencia como la primera ciudad activa dentro de una comunidad nacional en expansión.
+- Los estados sin anuncios o grupos ofrecen acciones útiles para quitar filtros, reintentar o publicar.
+- Nueva sección de confianza con moderación, advertencia sobre pagos y sistema de reportes.
+- Aviso antiestafa visible: verificar identidad, condiciones y existencia antes de transferir una reserva.
+- La sección de servicios funciona como convocatoria para captar los primeros profesionales, con contacto directo por Instagram.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
