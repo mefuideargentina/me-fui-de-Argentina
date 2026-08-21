@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Me Fui de Argentina — Comunidad de argentinos en España</title>
   <meta name="description" content="Vivienda, trabajo, eventos, grupos de WhatsApp y compra/venta para argentinos en España.">
- <link rel="stylesheet" href="styles.css?v=19">
+ <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
 
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="#inicio">
-      <span class="brand-flag">🇦🇷</span>
+      <span class="brand-mark" aria-hidden="true"><b></b><i></i><b></b></span>
       <span>
         <strong>Me Fui <em>de Argentina</em></strong>
         <small>Comunidad de argentinos en España</small>
@@ -20,11 +20,10 @@
     </a>
 
     <nav>
-      <a href="#inicio" class="active">🏠 Inicio</a>
-      <a href="#grupos">👥 Grupos</a>
-      <a href="#explorar">🔎 Explorar</a>
-      <a href="#negocios">🏪 Para negocios</a>
-      <a href="#publicar">📢 Publicar</a>
+      <a href="#inicio" class="active">Inicio</a>
+      <a href="#explorar">Anuncios</a>
+      <a href="#grupos">Grupos</a>
+      <a href="#negocios">Para negocios</a>
     </nav>
 <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Abrir menú">
   ☰
@@ -38,7 +37,7 @@
   <a href="#publicar">📢 Publicar</a>
 </div>
     <button class="btn btn-blue" onclick="document.querySelector('#publicar').scrollIntoView({behavior:'smooth'})">
-      + Publicar anuncio
+      Publicar gratis <span>→</span>
     </button>
   </div>
 </header>
@@ -49,16 +48,16 @@
   <div class="container hero-grid">
 
     <div class="hero-copy">
-      <span class="welcome"><i></i> COMUNIDAD ARGENTINA EN ESPAÑA</span>
+      <span class="welcome"><i></i> HECHO POR ARGENTINOS, PARA ARGENTINOS</span>
 
       <h1>
-        Encontrá tu lugar
-        <span>en España</span>
+        Llegar es más fácil
+        <span>cuando no llegás solo.</span>
       </h1>
 
       <p>
-        Vivienda, trabajo, grupos, eventos y comunidad
-        para argentinos que viven o están por llegar.
+        Encontrá vivienda, trabajo, grupos y personas que ya pasaron
+        por lo mismo. Todo en un solo lugar, sin vueltas.
       </p>
 
       <div class="hero-actions">
@@ -66,32 +65,34 @@
           class="btn btn-blue"
           onclick="document.querySelector('#explorar').scrollIntoView({behavior:'smooth'})"
         >
-          ⌕ Explorar anuncios
+          Explorar la comunidad <span>→</span>
         </button>
 
         <button
           class="btn btn-white"
           onclick="document.querySelector('#grupos').scrollIntoView({behavior:'smooth'})"
         >
-          🟢 Ver grupos de WhatsApp
+          Ver grupos de WhatsApp
         </button>
       </div>
 
       <div class="hero-proof" aria-label="Características de la comunidad">
-        <span>✓ Publicación gratuita</span>
-        <span>✓ Contenido moderado</span>
-        <span>✓ Hecho por argentinos</span>
+        <span><b>01</b> Publicación gratuita</span>
+        <span><b>02</b> Contenido moderado</span>
+        <span><b>03</b> Comunidad real</span>
       </div>
     </div>
 
-    <div class="hero-visual">
-      <div class="plane">✈️</div>
-
-      <div class="spain-card">
-        <span class="card-kicker">TU PUNTO DE PARTIDA</span>
-        <div class="route-flags"><span>🇦🇷</span><b>→</b><span>🇪🇸</span></div>
-        <strong>Todo para empezar en España</strong>
-        <small>Anuncios moderados · Grupos reales · Comunidad</small>
+    <div class="hero-visual" aria-label="Comunidad argentina en España">
+      <div class="hero-art-wrap">
+        <img class="hero-art" src="assets/hero-community.webp" alt="Ilustración de la vida entre Argentina y España">
+        <span class="hero-art-label">ARGENTINA <b>→</b> ESPAÑA</span>
+      </div>
+      <div class="floating-card floating-card-top">
+        <span>📍</span><div><small>Comunidad activa</small><strong>Valencia</strong></div>
+      </div>
+      <div class="floating-card floating-card-bottom">
+        <span>💬</span><div><small>Grupos reales</small><strong>Conectá con los tuyos</strong></div>
       </div>
     </div>
 
@@ -99,26 +100,30 @@
 </section>
 <section class="categories" id="explorar">
   <div class="container">
+    <div class="category-intro">
+      <span>¿QUÉ ESTÁS BUSCANDO?</span>
+      <p>Accesos rápidos para resolver lo importante.</p>
+    </div>
     <div class="category-grid">
       <button class="category blue" data-filter="vivienda">
         <span class="icon">🏠</span>
-        <div><strong>Vivienda</strong><small>Habitaciones, pisos y alquileres</small></div>
+        <div><strong>Vivienda</strong><small>Habitaciones, pisos y alquileres</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category green" data-filter="trabajo">
         <span class="icon">💼</span>
-        <div><strong>Trabajo</strong><small>Ofertas y personas buscando trabajo</small></div>
+        <div><strong>Trabajo</strong><small>Ofertas y personas buscando trabajo</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category purple" data-filter="eventos">
         <span class="icon">📅</span>
-        <div><strong>Eventos y planes</strong><small>Fiestas, juntadas, deportes y más</small></div>
+        <div><strong>Eventos y planes</strong><small>Fiestas, juntadas, deportes y más</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category orange" onclick="document.querySelector('#grupos').scrollIntoView({behavior:'smooth'})">
         <span class="icon">👥</span>
-        <div><strong>Grupos WhatsApp</strong><small>Unite a grupos por temática</small></div>
+        <div><strong>Grupos WhatsApp</strong><small>Unite a grupos por temática</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category pink" data-filter="compraventa">
         <span class="icon">🛒</span>
-        <div><strong>Compra y venta</strong><small>Muebles, tecnología, bicis y más</small></div>
+        <div><strong>Compra y venta</strong><small>Muebles, tecnología, bicis y más</small></div><b class="category-arrow">↗</b>
       </button>
     </div>
   </div>
@@ -128,8 +133,9 @@
   <div class="container">
     <div class="section-head">
       <div class="recent-heading">
-        <span class="section-kicker">EXPLORÁ LA COMUNIDAD</span>
-        <h2>Lo más reciente <span>🔥</span></h2>
+        <span class="section-kicker">ANUNCIOS DE LA COMUNIDAD</span>
+        <h2>Encontrá lo que necesitás.</h2>
+        <p>Publicaciones recientes, revisadas antes de aparecer.</p>
       </div>
 
       <div class="controls">
@@ -160,7 +166,7 @@
 <section id="grupos" class="groups-section">
   <div class="container">
     <div class="section-title">
-      <span>💬 COMUNIDAD</span>
+      <span>COMUNIDAD EN WHATSAPP</span>
       <h2>Encontrá tu grupo</h2>
       <p>Elegí ciudad y temática. Valencia ya está activa; vamos sumando nuevas ciudades a medida que crece la comunidad.</p>
     </div>
@@ -193,7 +199,7 @@
 <section id="cityQuiz" class="city-quiz-section">
   <div class="container">
     <div class="section-title">
-      <span>🇪🇸 DESCUBRÍ TU CIUDAD</span>
+      <span>DESCUBRÍ TU CIUDAD</span>
       <h2>¿Qué ciudad de España va más con vos?</h2>
       <p>
         Respondé unas preguntas rápidas sobre clima, ritmo de vida,
@@ -218,7 +224,7 @@
   <section id="negocios" class="business-section">
   <div class="container">
     <div class="section-title">
-      <span>🤝 PARA NEGOCIOS</span>
+      <span>PARA NEGOCIOS</span>
       <h2>Hacé crecer tu negocio con la comunidad</h2>
       <p>
         Si ofrecés un servicio o tenés un negocio en España, podés llegar
@@ -269,7 +275,7 @@
   <div class="container">
 
     <div class="section-title">
-      <span>⭐ SERVICIOS RECOMENDADOS</span>
+      <span>SERVICIOS PARA EMPEZAR</span>
       <h2>Profesionales que pueden ayudarte</h2>
       <p>
         Encontrá servicios útiles para instalarte y vivir en España.
@@ -320,7 +326,7 @@
 <section id="publicar" class="publish-section">
   <div class="container publish-grid">
     <div class="publish-info">
-      <span>📢 PUBLICAR</span>
+      <span>PUBLICÁ EN 2 MINUTOS</span>
       <h2>Compartí algo con la comunidad</h2>
       <p>Publicá una habitación, trabajo, evento o producto para compartirlo con la comunidad.</p>
       <ul>
@@ -482,6 +488,6 @@
     <div id="reportStatus" class="status"></div>
   </div>
 </div>
-<script src="app.js?v=19"></script>
+<script src="app.js?v=20"></script>
 </body>
 </html>
