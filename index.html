@@ -13,7 +13,7 @@
   <meta property="og:image" content="https://mefuideargentina.github.io/assets/hero-community.webp">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://mefuideargentina.github.io/">
-  <link rel="stylesheet" href="styles.css?v=22">
+  <link rel="stylesheet" href="styles.css?v=23">
 </head>
 <body>
 <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
@@ -305,11 +305,11 @@
   <div class="container">
 
     <div class="section-title">
-      <span>SERVICIOS PARA EMPEZAR</span>
-      <h2>Profesionales que pueden ayudarte</h2>
+      <span>RED PROFESIONAL</span>
+      <h2>Servicios útiles, cuando más los necesitás</h2>
       <p>
-        Estamos creando una red de profesionales útiles para instalarte y vivir en España.
-        Valencia es la primera ciudad en la que abrimos la convocatoria.
+        Estamos preparando esta sección con profesionales de Valencia.
+        Los perfiles se publicarán cuando estén listos para recibir consultas.
       </p>
     </div>
 
@@ -319,39 +319,39 @@
         <span class="service-icon">📄</span>
         <h3>Gestoría y trámites</h3>
         <p>NIE, TIE, empadronamiento, nacionalidad y otros trámites.</p>
-        <span class="service-empty open-call">Convocatoria abierta</span>
+        <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
         <span class="service-icon">⚖️</span>
         <h3>Abogados</h3>
         <p>Asesoramiento legal, extranjería, laboral y otros servicios.</p>
-        <span class="service-empty open-call">Convocatoria abierta</span>
+        <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
         <span class="service-icon">🚚</span>
         <h3>Mudanzas y transporte</h3>
         <p>Servicios para mudanzas, traslados y transporte.</p>
-        <span class="service-empty open-call">Convocatoria abierta</span>
+        <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
         <span class="service-icon">🧠</span>
         <h3>Psicología</h3>
         <p>Profesionales y centros de atención psicológica.</p>
-        <span class="service-empty open-call">Convocatoria abierta</span>
+        <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
     </div>
 
     <div class="services-business-cta">
       <div>
-        <small>PRIMEROS PROFESIONALES</small>
-        <strong>¿Ofrecés un servicio útil para la comunidad?</strong>
-        <span>Contanos qué hacés y en qué ciudad. Estamos seleccionando los primeros perfiles para sumar a la plataforma.</span>
+        <small>PROFESIONALES EN VALENCIA</small>
+        <strong>¿Trabajás en alguno de estos rubros?</strong>
+        <span>Contanos qué hacés. Estamos conociendo profesionales para construir una red útil y confiable desde el comienzo.</span>
       </div>
-      <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">Quiero participar →</a>
+      <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">Presentar mi servicio →</a>
     </div>
 
   </div>
@@ -479,37 +479,30 @@
   <div id="chatbotPanel" class="chatbot-panel">
   <div class="chatbot-header">
     <div>
-      <strong>Asistente</strong>
-      <small>¿En qué te podemos ayudar?</small>
+      <strong>Asistente de la comunidad</strong>
+      <small><i></i> Orientación rápida · Beta</small>
     </div>
     <button id="chatbotClose" class="chatbot-close" aria-label="Cerrar asistente">×</button>
   </div>
 
- <div class="chatbot-options">
-
-  <div class="chatbot-group">
-    <span class="chatbot-group-title">BUSCO ALGO</span>
-
-    <button onclick="goToListings('vivienda')">🏠 Buscar vivienda</button>
-    <button onclick="goToListings('trabajo')">💼 Buscar trabajo</button>
-    <button onclick="goToGroups()">💬 Ver grupos de WhatsApp</button>
+  <div id="chatConversation" class="chat-conversation" aria-live="polite">
+    <div class="chat-message bot-message">
+      <span class="chat-avatar">MF</span>
+      <div><p>¡Hola! Contame qué necesitás y te llevo al lugar correcto.</p></div>
+    </div>
+    <div class="chat-suggestions" aria-label="Consultas frecuentes">
+      <button type="button" data-chat-question="Busco vivienda">🏠 Vivienda</button>
+      <button type="button" data-chat-question="Busco trabajo">💼 Trabajo</button>
+      <button type="button" data-chat-question="Quiero conocer gente">💬 Comunidad</button>
+      <button type="button" data-chat-question="Quiero publicar">＋ Publicar</button>
+    </div>
   </div>
-
-  <div class="chatbot-group">
-    <span class="chatbot-group-title">QUIERO PARTICIPAR</span>
-
-    <button onclick="goToPublish()">📢 Publicar un anuncio</button>
-    <button onclick="goToCityQuiz()">🗺️ ¿Qué ciudad es para mí?</button>
-  </div>
-
-  <div class="chatbot-group">
-    <span class="chatbot-group-title">SOY NEGOCIO</span>
-
-    <button onclick="goToBusiness()">🏪 Para negocios</button>
-    <button onclick="contactCollaborations()">🤝 Contacto / colaboraciones</button>
-  </div>
-
-</div>
+  <form id="chatForm" class="chat-form">
+    <label class="sr-only" for="chatInput">Escribí tu consulta</label>
+    <input id="chatInput" type="text" maxlength="180" autocomplete="off" placeholder="Ej: busco habitación en Valencia" required>
+    <button type="submit" aria-label="Enviar consulta">➜</button>
+  </form>
+  <small class="chat-note">Orientación automática. No reemplaza asesoramiento profesional.</small>
 </div>
 <button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente" aria-expanded="false" aria-controls="chatbotPanel">
   💬
@@ -552,6 +545,6 @@
     <div id="reportStatus" class="status"></div>
   </div>
 </div>
-<script src="app.js?v=22"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>
