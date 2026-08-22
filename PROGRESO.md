@@ -1,6 +1,6 @@
 # Me Fui de Argentina — estado del proyecto
 
-Última actualización: 21 de agosto de 2026.
+Última actualización: 22 de agosto de 2026.
 
 ## Dirección visual v20
 
@@ -57,6 +57,11 @@
 - El directorio no inventa fichas ni recomendaciones: empezará por Valencia y publicará lugares reales a medida que sean revisados.
 - Se deja definida la diferencia futura entre ficha normal, destacada, patrocinada y recomendada.
 - El asistente reconoce consultas sobre inmobiliarias, seguros, tiendas, mate, productos y gastronomía argentina.
+
+## Mensaje del directorio v26
+
+- Se elimina del sitio público la explicación interna sobre tipos de fichas comerciales.
+- El cierre del directorio invita de forma simple a recomendar lugares reales para la guía de Valencia.
 
 ## Enlaces y tecnología
 
