@@ -63,6 +63,15 @@
 - Se elimina del sitio público la explicación interna sobre tipos de fichas comerciales.
 - El cierre del directorio invita de forma simple a recomendar lugares reales para la guía de Valencia.
 
+## Acabado visual y sensorial v27
+
+- Nuevo sistema coherente de iconos vectoriales para navegación, categorías, grupos, servicios, beneficios y asistente, reduciendo la dependencia de emojis del dispositivo.
+- Tarjetas de publicaciones con color por categoría, imágenes más expresivas, jerarquía refinada, descripciones acotadas y respuestas táctiles más claras.
+- Contador de resultados y barra de filtros móvil fija, desplazable y pensada para navegar con el pulgar.
+- Ficha de publicación móvil reforzada como panel inferior, con animación breve, tirador visual y transiciones respetuosas con la preferencia de movimiento reducido.
+- Estados de carga, vacío, botones, grupos, chat y confirmaciones reciben microinteracciones consistentes sin añadir sonidos ni efectos invasivos.
+- Se mantiene el comportamiento actual de publicación, moderación, filtros, contacto, reportes y enlaces compartibles.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/

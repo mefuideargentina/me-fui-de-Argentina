@@ -17,7 +17,7 @@
   <link rel="canonical" href="https://mefuideargentina.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=25">
+  <link rel="stylesheet" href="styles.css?v=27">
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -33,6 +33,26 @@
   </script>
 </head>
 <body>
+<svg class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"/></symbol>
+  <symbol id="icon-work" viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 12.5c5.4 2.2 10.6 2.2 16 0M10.5 13h3"/></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M5 5.5h14v14H5zM8 3.5v4M16 3.5v4M5 9.5h14M8.5 13h2M13.5 13h2M8.5 16.5h2"/></symbol>
+  <symbol id="icon-people" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.5 19c.4-3.3 2.2-5 5.5-5s5.1 1.7 5.5 5M16 11a2.5 2.5 0 1 0 0-5M16 14c2.8 0 4.3 1.4 4.5 4"/></symbol>
+  <symbol id="icon-shop" viewBox="0 0 24 24"><path d="M5 10v10h14V10M4 5h16l-1 5c-1.1 1.3-2.3 1.3-3.5 0-1.1 1.3-2.3 1.3-3.5 0-1.1 1.3-2.3 1.3-3.5 0C7.3 11.3 6.1 11.3 5 10zM9 20v-5h6v5"/></symbol>
+  <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 21s6-6.2 6-12a6 6 0 1 0-12 0c0 5.8 6 12 6 12Z"/><circle cx="12" cy="9" r="2"/></symbol>
+  <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M4 5h16v12H9l-5 4zM8 10h8M8 13h5"/></symbol>
+  <symbol id="icon-doc" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V21H6zM14 3.5V8h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="icon-scale" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 7h14M7 7l-3 6h6zM17 7l-3 6h6z"/></symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5.2-2.8 8.4-8 10-5.2-1.6-8-4.8-8-10V6zM8.5 12l2.2 2.2 4.8-5"/></symbol>
+  <symbol id="icon-truck" viewBox="0 0 24 24"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M12 20S4 15.3 4 9a4 4 0 0 1 7.2-2.4L12 8l.8-1.4A4 4 0 0 1 20 9c0 6.3-8 11-8 11Z"/></symbol>
+  <symbol id="icon-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 8 3.5-2.5L15.5 8l-1.3 4H9.8zM9.8 12l-3.3 2.5M14.2 12l3.3 2.5M8.5 18l1.3-3M15.5 18l-1.3-3"/></symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+  <symbol id="icon-megaphone" viewBox="0 0 24 24"><path d="M4 10v4h4l9 4V6L8 10zM8 14l2 6h3l-2-5"/></symbol>
+  <symbol id="icon-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="icon-camera" viewBox="0 0 24 24"><path d="M4 7h4l1.5-2h5L16 7h4v12H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></symbol>
+</svg>
 <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
 
 <header class="topbar">
@@ -54,17 +74,17 @@
       <a href="#negocios">Para negocios</a>
     </nav>
 <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
-  ☰
+  <span class="menu-lines" aria-hidden="true"><i></i><i></i><i></i></span>
 </button>
 
 <div id="mobileMenu" class="mobile-menu">
-  <a href="#inicio">🏠 Inicio</a>
-  <a href="#grupos">👥 Grupos</a>
-  <a href="#explorar">🔎 Explorar</a>
-  <a href="#valencia">📍 Empezar en Valencia</a>
-  <a href="#lugares">🧉 Lugares argentinos</a>
-  <a href="#negocios">🏪 Para negocios</a>
-  <a href="#publicar">📢 Publicar</a>
+  <a href="#inicio"><svg class="ui-icon"><use href="#icon-home"/></svg> Inicio</a>
+  <a href="#grupos"><svg class="ui-icon"><use href="#icon-people"/></svg> Grupos</a>
+  <a href="#explorar"><svg class="ui-icon"><use href="#icon-search"/></svg> Explorar</a>
+  <a href="#valencia"><svg class="ui-icon"><use href="#icon-pin"/></svg> Empezar en Valencia</a>
+  <a href="#lugares"><svg class="ui-icon"><use href="#icon-shop"/></svg> Lugares argentinos</a>
+  <a href="#negocios"><svg class="ui-icon"><use href="#icon-bag"/></svg> Para negocios</a>
+  <a href="#publicar"><svg class="ui-icon"><use href="#icon-megaphone"/></svg> Publicar</a>
 </div>
     <button class="btn btn-blue" onclick="document.querySelector('#publicar').scrollIntoView({behavior:'smooth'})">
       Publicar gratis <span>→</span>
@@ -119,10 +139,10 @@
         <span class="hero-art-label">ARGENTINA <b>→</b> ESPAÑA</span>
       </div>
       <div class="floating-card floating-card-top">
-        <span>📍</span><div><small>Comunidad en expansión</small><strong>Valencia, primera ciudad activa</strong></div>
+        <span><svg class="ui-icon"><use href="#icon-pin"/></svg></span><div><small>Comunidad en expansión</small><strong>Valencia, primera ciudad activa</strong></div>
       </div>
       <div class="floating-card floating-card-bottom">
-        <span>💬</span><div><small>Grupos reales</small><strong>Conectá con los tuyos</strong></div>
+        <span><svg class="ui-icon"><use href="#icon-chat"/></svg></span><div><small>Grupos reales</small><strong>Conectá con los tuyos</strong></div>
       </div>
     </div>
 
@@ -136,23 +156,23 @@
     </div>
     <div class="category-grid">
       <button class="category blue" data-filter="vivienda">
-        <span class="icon">🏠</span>
+        <span class="icon"><svg class="ui-icon"><use href="#icon-home"/></svg></span>
         <div><strong>Vivienda</strong><small>Habitaciones, pisos y alquileres</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category green" data-filter="trabajo">
-        <span class="icon">💼</span>
+        <span class="icon"><svg class="ui-icon"><use href="#icon-work"/></svg></span>
         <div><strong>Trabajo</strong><small>Ofertas y personas buscando trabajo</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category purple" data-filter="eventos">
-        <span class="icon">📅</span>
+        <span class="icon"><svg class="ui-icon"><use href="#icon-calendar"/></svg></span>
         <div><strong>Eventos y planes</strong><small>Fiestas, juntadas, deportes y más</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category orange" onclick="document.querySelector('#grupos').scrollIntoView({behavior:'smooth'})">
-        <span class="icon">👥</span>
+        <span class="icon"><svg class="ui-icon"><use href="#icon-people"/></svg></span>
         <div><strong>Grupos WhatsApp</strong><small>Unite a grupos por temática</small></div><b class="category-arrow">↗</b>
       </button>
       <button class="category pink" data-filter="compraventa">
-        <span class="icon">🛒</span>
+        <span class="icon"><svg class="ui-icon"><use href="#icon-shop"/></svg></span>
         <div><strong>Compra y venta</strong><small>Muebles, tecnología, bicis y más</small></div><b class="category-arrow">↗</b>
       </button>
     </div>
@@ -167,10 +187,12 @@
         <h2>Encontrá lo que necesitás.</h2>
         <p>Publicaciones recientes, revisadas antes de aparecer.</p>
       </div>
+    </div>
 
-      <div class="controls">
+      <div class="controls listing-toolbar">
+        <span id="resultsCount" class="results-count" aria-live="polite"></span>
         <select id="citySelect">
-          <option value="todas">📍 Toda España</option>
+          <option value="todas">Toda España</option>
           <option value="Valencia">Valencia</option>
           <option value="Madrid">Madrid</option>
           <option value="Barcelona">Barcelona</option>
@@ -187,7 +209,6 @@
           <button class="filter" data-filter="compraventa">Compra y venta</button>
         </div>
       </div>
-    </div>
 
     <div id="listingGrid" class="listing-grid" aria-live="polite">
       <article class="listing-card skeleton-card" aria-hidden="true"><i></i><b></b><span></span><span></span></article>
@@ -207,18 +228,18 @@
 
     <div class="group-toolbar">
       <select id="groupCity">
-        <option value="Valencia">📍 Valencia</option>
-        <option value="proximamente">🇪🇸 Otras ciudades — próximamente</option>
+        <option value="Valencia">Valencia</option>
+        <option value="proximamente">Otras ciudades — próximamente</option>
       </select>
       <div class="group-filters">
         <button class="group-filter active" data-group-filter="todos">Todos</button>
-        <button class="group-filter" data-group-filter="trabajo">💼 Trabajo</button>
-        <button class="group-filter" data-group-filter="vivienda">🏠 Vivienda</button>
-        <button class="group-filter" data-group-filter="general">🇦🇷 General</button>
-        <button class="group-filter" data-group-filter="servicios">📢 Servicios</button>
-        <button class="group-filter" data-group-filter="compraventa">🛒 Compra/venta</button>
-        <button class="group-filter" data-group-filter="social">🧉 Juntadas</button>
-        <button class="group-filter" data-group-filter="deportes">⚽ Deportes</button>
+        <button class="group-filter" data-group-filter="trabajo"><svg class="ui-icon"><use href="#icon-work"/></svg> Trabajo</button>
+        <button class="group-filter" data-group-filter="vivienda"><svg class="ui-icon"><use href="#icon-home"/></svg> Vivienda</button>
+        <button class="group-filter" data-group-filter="general"><svg class="ui-icon"><use href="#icon-people"/></svg> General</button>
+        <button class="group-filter" data-group-filter="servicios"><svg class="ui-icon"><use href="#icon-megaphone"/></svg> Servicios</button>
+        <button class="group-filter" data-group-filter="compraventa"><svg class="ui-icon"><use href="#icon-shop"/></svg> Compra/venta</button>
+        <button class="group-filter" data-group-filter="social"><svg class="ui-icon"><use href="#icon-chat"/></svg> Juntadas</button>
+        <button class="group-filter" data-group-filter="deportes"><svg class="ui-icon"><use href="#icon-ball"/></svg> Deportes</button>
       </div>
     </div>
 
@@ -310,7 +331,7 @@
     <div class="business-grid">
 
       <article class="business-card">
-        <span class="business-icon">⭐</span>
+        <span class="business-icon"><svg class="ui-icon"><use href="#icon-work"/></svg></span>
         <h3>Profesional destacado</h3>
         <p>
           Aparecé con mayor visibilidad dentro de servicios y recomendaciones.
@@ -319,7 +340,7 @@
       </article>
 
       <article class="business-card">
-        <span class="business-icon">📢</span>
+        <span class="business-icon"><svg class="ui-icon"><use href="#icon-megaphone"/></svg></span>
         <h3>Destacá tu publicación</h3>
         <p>
           Mostrá tu anuncio antes que los demás durante un período determinado.
@@ -328,7 +349,7 @@
       </article>
 
       <article class="business-card">
-        <span class="business-icon">🎥</span>
+        <span class="business-icon"><svg class="ui-icon"><use href="#icon-camera"/></svg></span>
         <h3>Reseña personalizada</h3>
         <p>
           Podemos visitar tu negocio y crear contenido para Instagram y TikTok.
@@ -361,42 +382,42 @@
     <div class="services-grid">
 
         <article class="service-card">
-        <span class="service-icon">📄</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-doc"/></svg></span>
         <h3>Gestoría y trámites</h3>
         <p>NIE, TIE, empadronamiento, nacionalidad y otros trámites.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
-        <span class="service-icon">⚖️</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-scale"/></svg></span>
         <h3>Abogados</h3>
         <p>Asesoramiento legal, extranjería, laboral y otros servicios.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
-        <span class="service-icon">🏡</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-home"/></svg></span>
         <h3>Inmobiliarias y búsqueda</h3>
         <p>Agencias y profesionales que acompañan la búsqueda de alquiler o compra de vivienda.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
-        <span class="service-icon">🛡️</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-shield"/></svg></span>
         <h3>Seguros</h3>
         <p>Profesionales para consultar seguros de hogar, salud, viaje, coche y otras necesidades.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
-        <span class="service-icon">🚚</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-truck"/></svg></span>
         <h3>Mudanzas y transporte</h3>
         <p>Servicios para mudanzas, traslados y transporte.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
       </article>
 
       <article class="service-card">
-        <span class="service-icon">🧠</span>
+        <span class="service-icon"><svg class="ui-icon"><use href="#icon-heart"/></svg></span>
         <h3>Psicología</h3>
         <p>Profesionales y centros de atención psicológica.</p>
         <span class="service-empty service-status"><i></i> Próximamente en Valencia</span>
@@ -463,10 +484,10 @@
     <form id="publishForm" class="publish-card">
       <label>Categoría
         <select id="category">
-          <option value="vivienda">🏠 Vivienda</option>
-          <option value="trabajo">💼 Trabajo</option>
+          <option value="vivienda">Vivienda</option>
+          <option value="trabajo">Trabajo</option>
           <option value="eventos">🎉 Eventos y planes</option>
-          <option value="compraventa">🛒 Compra y venta</option>
+          <option value="compraventa">Compra y venta</option>
         </select>
       </label>
 
@@ -512,10 +533,10 @@
 
 <section class="benefits">
   <div class="container benefit-grid">
-    <div>🛡️ <span><strong>Comunidad moderada</strong><small>Revisamos las publicaciones antes de mostrarlas.</small></span></div>
-    <div>✅ <span><strong>Publicaciones revisadas</strong><small>Moderamos el contenido para cuidar la comunidad.</small></span></div>
-    <div>👥 <span><strong>Hecho por argentinos</strong><small>Entendemos lo que necesitás.</small></span></div>
-    <div>❤️ <span><strong>Conectá y compartí</strong><small>Hacemos comunidad.</small></span></div>
+    <div><svg class="ui-icon"><use href="#icon-shield"/></svg><span><strong>Comunidad moderada</strong><small>Revisamos las publicaciones antes de mostrarlas.</small></span></div>
+    <div><svg class="ui-icon"><use href="#icon-doc"/></svg><span><strong>Publicaciones revisadas</strong><small>Moderamos el contenido para cuidar la comunidad.</small></span></div>
+    <div><svg class="ui-icon"><use href="#icon-people"/></svg><span><strong>Hecho por argentinos</strong><small>Entendemos lo que necesitás.</small></span></div>
+    <div><svg class="ui-icon"><use href="#icon-heart"/></svg><span><strong>Conectá y compartí</strong><small>Hacemos comunidad.</small></span></div>
   </div>
 </section>
 
@@ -529,12 +550,12 @@
 
       <div class="social-links">
   <a href="https://www.instagram.com/mefuideargentina" target="_blank" rel="noopener">
-    <span class="social-icon">📸</span>
+    <span class="social-icon">IG</span>
     <span>@mefuideargentina</span>
   </a>
 
   <a href="https://www.tiktok.com/@mefuideargentina" target="_blank" rel="noopener">
-    <span class="social-icon">🎵</span>
+    <span class="social-icon">TT</span>
     <span>@mefuideargentina</span>
   </a>
 </div>
@@ -575,10 +596,10 @@
       <div><p>¡Hola! Contame qué necesitás y te llevo al lugar correcto.</p></div>
     </div>
     <div class="chat-suggestions" aria-label="Consultas frecuentes">
-      <button type="button" data-chat-question="Busco vivienda">🏠 Vivienda</button>
-      <button type="button" data-chat-question="Busco trabajo">💼 Trabajo</button>
-      <button type="button" data-chat-question="Quiero conocer gente">💬 Comunidad</button>
-      <button type="button" data-chat-question="Dónde comprar productos argentinos">🧉 Lugares</button>
+      <button type="button" data-chat-question="Busco vivienda">Vivienda</button>
+      <button type="button" data-chat-question="Busco trabajo">Trabajo</button>
+      <button type="button" data-chat-question="Quiero conocer gente">Comunidad</button>
+      <button type="button" data-chat-question="Dónde comprar productos argentinos">Lugares</button>
       <button type="button" data-chat-question="Quiero publicar">＋ Publicar</button>
     </div>
   </div>
@@ -590,18 +611,18 @@
   <small class="chat-note">Orientación automática. No reemplaza asesoramiento profesional.</small>
 </div>
 <button id="chatbotButton" class="chatbot-button" aria-label="Abrir asistente" aria-expanded="false" aria-controls="chatbotPanel">
-  💬
+  <svg class="ui-icon"><use href="#icon-chat"/></svg>
 </button>
 <nav class="mobile-dock" aria-label="Accesos rápidos">
-  <a href="#explorar"><span>⌕</span>Explorar</a>
-  <a href="#grupos"><span>◉</span>Grupos</a>
+  <a href="#explorar"><svg class="ui-icon"><use href="#icon-search"/></svg>Explorar</a>
+  <a href="#grupos"><svg class="ui-icon"><use href="#icon-people"/></svg>Grupos</a>
   <a href="#publicar" class="mobile-dock-main"><span>＋</span>Publicar</a>
 </nav>
 <div id="reportModal" class="report-modal">
   <div class="report-modal-card">
     <button id="reportModalClose" class="report-modal-close" aria-label="Cerrar reporte">×</button>
 
-    <h3>⚠️ Reportar publicación</h3>
+    <h3>Reportar publicación</h3>
     <p id="reportListingTitle"></p>
 
     <label>
@@ -630,6 +651,6 @@
     <div id="reportStatus" class="status"></div>
   </div>
 </div>
-<script src="app.js?v=25"></script>
+<script src="app.js?v=27"></script>
 </body>
 </html>
