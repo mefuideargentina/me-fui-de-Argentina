@@ -76,6 +76,13 @@
 
 - Las etiquetas “AR”, “MATE”, “MESA” y “LOCAL” se reemplazan por iconos vectoriales de tienda, mate, gastronomía y comercio para completar el sistema visual.
 
+## Colaboradores y densidad móvil v29
+
+- Se incorpora una franja institucional de Me Fui de Argentina que sirve como base para futuros espacios de colaboración sin inventar patrocinadores ni confundir contenido propio con publicidad.
+- Los futuros banners comerciales reutilizarán esta estructura, pero deberán identificarse de forma visible como “Patrocinado” y usar enlaces con atributo `sponsored`.
+- En móvil, las secciones de negocios, servicios y lugares pasan a carriles táctiles con vista parcial de la siguiente tarjeta para reducir el largo de la portada y facilitar la exploración.
+- En escritorio se conservan las grillas actuales y no se modifica el funcionamiento de anuncios, grupos, formularios, moderación ni chat.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
