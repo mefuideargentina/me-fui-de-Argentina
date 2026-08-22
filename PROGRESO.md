@@ -49,6 +49,15 @@
 - El panel de administración escapa el contenido enviado por usuarios, muestra estadísticas, imágenes, reportes y permite cerrar sesión.
 - No se añade analítica publicitaria ni se afirma cumplimiento legal completo mientras falten identidad pública del responsable, plazos y revisión profesional.
 
+## Servicios y lugares argentinos v25
+
+- Las publicaciones sin imagen muestran un mensaje adaptado: vivienda y compraventa indican la ausencia de foto, mientras trabajo y eventos se presentan por su tipo sin sugerir que falta contenido.
+- La futura red profesional suma inmobiliarias y servicios de búsqueda de vivienda, además de seguros.
+- Nuevo directorio local en preparación para tiendas argentinas y latinas, mate y productos argentinos, restaurantes, cafeterías, emprendimientos y comercios.
+- El directorio no inventa fichas ni recomendaciones: empezará por Valencia y publicará lugares reales a medida que sean revisados.
+- Se deja definida la diferencia futura entre ficha normal, destacada, patrocinada y recomendada.
+- El asistente reconoce consultas sobre inmobiliarias, seguros, tiendas, mate, productos y gastronomía argentina.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
