@@ -46,6 +46,13 @@ const categoryIcons = {
   compraventa: "◇"
 };
 
+const categoryPlaceholderLabels = {
+  vivienda: "ALOJAMIENTO SIN FOTO",
+  trabajo: "OPORTUNIDAD LABORAL",
+  eventos: "EVENTO O PLAN",
+  compraventa: "PRODUCTO SIN FOTO"
+};
+
 let supabaseListings = [];
 
 async function loadApprovedListings(){
@@ -143,7 +150,7 @@ function render(){
 >
     `).join("")}
   </div>
-` : `<button class="listing-placeholder listing-placeholder-${safe(x.category)}" onclick="openListingDetail('${safe(x.id)}')" aria-label="Ver ${safe(x.title)}"><span>${categoryIcons[x.category] || "○"}</span><small>PUBLICACIÓN SIN FOTO</small></button>`}
+` : `<button class="listing-placeholder listing-placeholder-${safe(x.category)}" onclick="openListingDetail('${safe(x.id)}')" aria-label="Ver ${safe(x.title)}"><span>${categoryIcons[x.category] || "○"}</span><small>${categoryPlaceholderLabels[x.category] || "PUBLICACIÓN"}</small></button>`}
       <h3>${safe(x.title)}</h3>
       <p>${safe(x.description)}</p>
       <div class="bottom">
@@ -549,7 +556,7 @@ function openListingDetail(id, initialImage = 0) {
         <div class="listing-detail-main"><img id="listingDetailImage" src="${safe(listing.images[initialImage] || listing.images[0])}" alt="${safe(listing.title)}"></div>
         ${listing.images.length > 1 ? `<div class="listing-detail-thumbs">${listing.images.map((image, index) => `<button type="button" class="listing-detail-thumb ${index === initialImage ? "active" : ""}" data-detail-image="${index}" aria-label="Ver imagen ${index + 1}"><img src="${safe(image)}" alt=""></button>`).join("")}</div>` : ""}
       </div>`
-    : `<div class="listing-detail-placeholder listing-placeholder-${safe(listing.category)}"><span>${categoryIcons[listing.category] || "○"}</span><small>PUBLICACIÓN SIN FOTO</small></div>`;
+    : `<div class="listing-detail-placeholder listing-placeholder-${safe(listing.category)}"><span>${categoryIcons[listing.category] || "○"}</span><small>${categoryPlaceholderLabels[listing.category] || "PUBLICACIÓN"}</small></div>`;
 
   modal.innerHTML = `
     <button class="listing-detail-backdrop" type="button" aria-label="Cerrar publicación"></button>
@@ -722,7 +729,7 @@ function getChatReply(rawText) {
   const text = normalizeChatText(rawText);
 
   if (/hola|buenas|buen dia|buenas tardes|buenas noches/.test(text)) {
-    return { text: "¡Buenas! Puedo orientarte con vivienda, trabajo, grupos, publicaciones, ciudades y servicios en Valencia.", actions: [] };
+    return { text: "¡Buenas! Puedo orientarte con vivienda, trabajo, grupos, publicaciones, lugares argentinos y servicios en Valencia.", actions: [] };
   }
   if (/vivienda|alquiler|habitacion|piso|casa|alojamiento/.test(text)) {
     return {
@@ -754,12 +761,21 @@ function getChatReply(rawText) {
       actions: [{ label: "Crear publicación", type: "publish" }]
     };
   }
-  if (/gestor|gestoria|abogado|psicolog|mudanza|profesional|servicio|tramite|nie|tie/.test(text)) {
+  if (/gestor|gestoria|abogado|psicolog|mudanza|profesional|servicio|tramite|nie|tie|inmobiliaria|agencia inmobiliaria|seguro|poliza/.test(text)) {
     return {
       text: "Estamos preparando la red profesional en Valencia. Todavía no mostramos perfiles hasta que estén listos para recibir consultas.",
       actions: [
         { label: "Ver servicios", type: "section", value: "servicios" },
         { label: "Presentar mi servicio", type: "instagram" }
+      ]
+    };
+  }
+  if (/tienda|productos argentinos|producto argentino|mate|yerba|alfajor|restaurante|cafeteria|comida argentina|empanada|parrilla|comercio latino|tienda latina/.test(text)) {
+    return {
+      text: "Estamos preparando un directorio de tiendas, productos, mate y gastronomía argentina en Valencia. Publicaremos lugares reales a medida que los revisemos.",
+      actions: [
+        { label: "Ver futuro directorio", type: "section", value: "lugares" },
+        { label: "Compartir un lugar", type: "instagram" }
       ]
     };
   }
@@ -786,7 +802,7 @@ function getChatReply(rawText) {
   }
 
   return {
-    text: "Todavía estoy aprendiendo. Probá preguntarme por vivienda, trabajo, grupos, publicar, ciudades, seguridad o servicios profesionales.",
+    text: "Todavía estoy aprendiendo. Probá preguntarme por vivienda, trabajo, grupos, lugares argentinos, publicar, ciudades, seguridad o servicios profesionales.",
     actions: [
       { label: "Explorar publicaciones", type: "section", value: "anuncios" },
       { label: "Ver grupos", type: "groups" }
@@ -1192,7 +1208,7 @@ window.addEventListener("scroll", updateScrollUI, { passive: true });
 updateScrollUI();
 
 const revealTargets = document.querySelectorAll(
-  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .valencia-guide-head, .valencia-guide-grid, .valencia-faq, .business-card, .service-card, .safety-heading, .safety-list, .publish-info, .publish-card"
+  ".section-title, .recent-heading, .category, .listing-card, .group-card, .journey-heading, .journey-steps, .valencia-guide-head, .valencia-guide-grid, .valencia-faq, .business-card, .service-card, .places-heading, .place-card, .safety-heading, .safety-list, .publish-info, .publish-card"
 );
 
 if ("IntersectionObserver" in window) {
