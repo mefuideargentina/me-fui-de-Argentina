@@ -72,6 +72,10 @@
 - Estados de carga, vacío, botones, grupos, chat y confirmaciones reciben microinteracciones consistentes sin añadir sonidos ni efectos invasivos.
 - Se mantiene el comportamiento actual de publicación, moderación, filtros, contacto, reportes y enlaces compartibles.
 
+## Iconos del directorio v28
+
+- Las etiquetas “AR”, “MATE”, “MESA” y “LOCAL” se reemplazan por iconos vectoriales de tienda, mate, gastronomía y comercio para completar el sistema visual.
+
 ## Enlaces y tecnología
 
 - Web pública: https://mefuideargentina.github.io/
