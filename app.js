@@ -17,6 +17,12 @@ function safe(s=""){
   return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
 
+function icon(name, className = "ui-icon") {
+  const safeName = String(name || "chat").replace(/[^a-z-]/g, "");
+  const safeClass = String(className).replace(/[^a-z0-9-_ ]/gi, "");
+  return `<svg class="${safeClass}" aria-hidden="true" focusable="false"><use href="#icon-${safeName}"></use></svg>`;
+}
+
 function parseListingImages(value) {
   if (!value) return [];
   try {
@@ -40,10 +46,10 @@ function formatListingAge(createdAt) {
 }
 
 const categoryIcons = {
-  vivienda: "⌂",
-  trabajo: "▣",
-  eventos: "◎",
-  compraventa: "◇"
+  vivienda: "home",
+  trabajo: "work",
+  eventos: "calendar",
+  compraventa: "shop"
 };
 
 const categoryPlaceholderLabels = {
@@ -106,6 +112,7 @@ function renderPrice(value){
 
 function render(){
   const grid = document.getElementById("listingGrid");
+  const resultsCount = document.getElementById("resultsCount");
   const data = getAll().filter(x=>{
     const cat = currentFilter==="todos" || x.category===currentFilter;
     const city =
@@ -114,11 +121,15 @@ function render(){
     return cat && city;
   });
 
+  if (resultsCount) {
+    resultsCount.textContent = data.length === 1 ? "1 resultado" : `${data.length} resultados`;
+  }
+
   if(!data.length){
     const place = currentCity !== "todas" ? ` en ${safe(currentCity)}` : "";
     grid.innerHTML = `
       <div class="empty-state">
-        <span>⌕</span>
+        <span>${icon("search")}</span>
         <h3>Todavía no hay publicaciones${place}</h3>
         <p>Probá viendo todas las categorías o publicá gratis para que otra persona pueda encontrarte.</p>
         <div class="empty-actions">
@@ -130,10 +141,10 @@ function render(){
   }
 
   grid.innerHTML = data.map(x=>`
-   <article class="listing-card ${x.featured ? "featured-card" : ""} ${x.images && x.images.length ? "has-images" : "no-images"}">
+   <article class="listing-card category-${safe(x.category)} ${x.featured ? "featured-card" : ""} ${x.images && x.images.length ? "has-images" : "no-images"}">
       <div class="meta">
   <div>
-    ${x.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}
+    ${x.featured ? `<span class="featured-badge">DESTACADO</span>` : ""}
     <span class="badge">${labels[x.category] || "PUBLICACIÓN"}</span>
   </div>
 
@@ -150,11 +161,11 @@ function render(){
 >
     `).join("")}
   </div>
-` : `<button class="listing-placeholder listing-placeholder-${safe(x.category)}" onclick="openListingDetail('${safe(x.id)}')" aria-label="Ver ${safe(x.title)}"><span>${categoryIcons[x.category] || "○"}</span><small>${categoryPlaceholderLabels[x.category] || "PUBLICACIÓN"}</small></button>`}
+` : `<button class="listing-placeholder listing-placeholder-${safe(x.category)}" onclick="openListingDetail('${safe(x.id)}')" aria-label="Ver ${safe(x.title)}"><span>${icon(categoryIcons[x.category] || "doc")}</span><small>${categoryPlaceholderLabels[x.category] || "PUBLICACIÓN"}</small></button>`}
       <h3>${safe(x.title)}</h3>
       <p>${safe(x.description)}</p>
       <div class="bottom">
-        <span>📍 ${safe(x.location)}</span>
+        <span>${icon("pin")} ${safe(x.location)}</span>
         <strong>${renderPrice(x.price)}</strong>
       </div>
       <div class="contacto">
@@ -391,7 +402,7 @@ function getGroupIcon(category, name) {
     groupName.includes("voley") ||
     groupName.includes("vóley")
   ) {
-    return "🏐";
+    return "ball";
   }
 
   // Fútbol
@@ -401,20 +412,20 @@ function getGroupIcon(category, name) {
     groupName.includes("fulbito") ||
     groupName.includes("football")
   ) {
-    return "⚽";
+    return "ball";
   }
 
   const icons = {
-    trabajo: "💼",
-    vivienda: "🏠",
-    general: "👥",
-    servicios: "📢",
-    compraventa: "🛒",
-    social: "🧉",
-    deportes: "⚽"
+    trabajo: "work",
+    vivienda: "home",
+    general: "people",
+    servicios: "megaphone",
+    compraventa: "shop",
+    social: "chat",
+    deportes: "ball"
   };
 
-  return icons[category] || "💬";
+  return icons[category] || "chat";
 }
 let groupFilter = "todos";
 
@@ -439,7 +450,7 @@ const groups = communityGroups.filter(g =>
   if(!groups.length){
     directory.innerHTML = `
       <div class="empty-state">
-        <span>💬</span>
+        <span>${icon("chat")}</span>
         <h3>Todavía no hay grupos para este filtro</h3>
         <p>Podés volver a ver todos los grupos disponibles en Valencia.</p>
         <div class="empty-actions"><button class="empty-primary" onclick="resetGroupFilters()">Ver todos</button></div>
@@ -448,7 +459,7 @@ const groups = communityGroups.filter(g =>
   }
   directory.innerHTML = groups.map(g => `
     <a href="#" class="group-card" onclick="return openCommunityGroup(event,'${g.url}')">
-      <span>${g.icon}</span>
+      <span>${icon(g.icon)}</span>
       <div>
         <strong>${safe(g.name)}</strong>
         <small>${safe(g.description)}</small>
@@ -482,30 +493,30 @@ document.querySelectorAll(".group-filter").forEach(btn=>{
 
 document.getElementById("groupCity").addEventListener("change",renderGroups);
 function renderContact(contact){
-  if(!contact) return "📩 Contacto: No especificado";
+  if(!contact) return `${icon("chat")} <span>Contacto no especificado</span>`;
 
   const c = contact.trim();
 
   if(c.startsWith("@")){
     const user = c.substring(1);
-    return `📸 <a href="https://instagram.com/${safe(user)}" target="_blank" rel="noopener">Contactar por Instagram</a>`;
+    return `${icon("chat")} <a href="https://instagram.com/${safe(user)}" target="_blank" rel="noopener">Contactar por Instagram</a>`;
   }
 
   if(c.includes("@") && c.includes(".")){
-    return `✉️ <a href="mailto:${safe(c)}">Enviar email</a>`;
+    return `${icon("chat")} <a href="mailto:${safe(c)}">Enviar email</a>`;
   }
 
   const digits = c.replace(/\D/g,"");
 
   if(digits.length >= 9){
-    return `💬 <a href="https://wa.me/${digits}" target="_blank" rel="noopener">Contactar por WhatsApp</a>`;
+    return `${icon("chat")} <a href="https://wa.me/${digits}" target="_blank" rel="noopener">Contactar por WhatsApp</a>`;
   }
 
   if(c.startsWith("http://") || c.startsWith("https://")){
-    return `🔗 <a href="${safe(c)}" target="_blank" rel="noopener">Abrir contacto</a>`;
+    return `${icon("arrow")} <a href="${safe(c)}" target="_blank" rel="noopener">Abrir contacto</a>`;
   }
 
-  return `📩 Contacto: ${safe(c)}`;
+  return `${icon("chat")} <span>Contacto: ${safe(c)}</span>`;
 }
 
 let openedListingId = null;
@@ -556,20 +567,20 @@ function openListingDetail(id, initialImage = 0) {
         <div class="listing-detail-main"><img id="listingDetailImage" src="${safe(listing.images[initialImage] || listing.images[0])}" alt="${safe(listing.title)}"></div>
         ${listing.images.length > 1 ? `<div class="listing-detail-thumbs">${listing.images.map((image, index) => `<button type="button" class="listing-detail-thumb ${index === initialImage ? "active" : ""}" data-detail-image="${index}" aria-label="Ver imagen ${index + 1}"><img src="${safe(image)}" alt=""></button>`).join("")}</div>` : ""}
       </div>`
-    : `<div class="listing-detail-placeholder listing-placeholder-${safe(listing.category)}"><span>${categoryIcons[listing.category] || "○"}</span><small>${categoryPlaceholderLabels[listing.category] || "PUBLICACIÓN"}</small></div>`;
+    : `<div class="listing-detail-placeholder listing-placeholder-${safe(listing.category)}"><span>${icon(categoryIcons[listing.category] || "doc")}</span><small>${categoryPlaceholderLabels[listing.category] || "PUBLICACIÓN"}</small></div>`;
 
   modal.innerHTML = `
     <button class="listing-detail-backdrop" type="button" aria-label="Cerrar publicación"></button>
-    <div class="listing-detail-card">
+    <div class="listing-detail-card category-${safe(listing.category)}">
       <button class="listing-detail-close" type="button" aria-label="Cerrar publicación">×</button>
       ${gallery}
       <div class="listing-detail-content">
         <div class="listing-detail-meta">
-          <div>${listing.featured ? `<span class="featured-badge">⭐ DESTACADO</span>` : ""}<span class="badge">${labels[listing.category] || "PUBLICACIÓN"}</span></div>
+          <div>${listing.featured ? `<span class="featured-badge">DESTACADO</span>` : ""}<span class="badge">${labels[listing.category] || "PUBLICACIÓN"}</span></div>
           <span>${safe(listing.age)}</span>
         </div>
         <h2 id="listingDetailTitle">${safe(listing.title)}</h2>
-        <div class="listing-detail-facts"><span>📍 ${safe(listing.location)}</span><strong>${renderPrice(listing.price)}</strong></div>
+        <div class="listing-detail-facts"><span>${icon("pin")} ${safe(listing.location)}</span><strong>${renderPrice(listing.price)}</strong></div>
         <p>${safe(listing.description)}</p>
         <div class="listing-detail-contact">${renderContact(listing.contact)}</div>
         <div class="listing-detail-safety"><strong>Antes de acordar</strong><span>Verificá identidad, condiciones y existencia. Me Fui de Argentina no recibe ni intermedia pagos.</span></div>
